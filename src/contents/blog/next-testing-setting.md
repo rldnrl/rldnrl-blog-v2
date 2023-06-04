@@ -24,7 +24,7 @@ yarn add @emotion/jest
 
 ## Next.js 12 이전 버전
 
-```js:jest.config.js
+```js
 // jest.config.js
 module.exports = {
   collectCoverageFrom: [
@@ -68,7 +68,7 @@ module.exports = {
 
 ## Next.js 12 버전 이상
 
-```js:jest.config.js
+```js
 const nextJest = require('next/jest')
 
 const createJestConfig = nextJest({
@@ -104,7 +104,7 @@ next.js 12는 jest를 포함하고 있어서 설정이 짧습니다.
 
 ## jest.setup.js 세팅
 
-```js:jest.setup.js
+```js
 import "@testing-library/jest-dom"
 ```
 만약 여러분이 테스트 전에 설정하고 싶은 것들이 있다면 `jest.setup.js`에 추가하면 됩니다.

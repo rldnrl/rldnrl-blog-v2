@@ -12,7 +12,7 @@ TypeScript의 코드 스타일이 Java와 많이 비슷해지고 있습니다. �
 
 `private`, `protected`는 TypeScript 문법입니다. 즉, 트랜스파일링 되면 사라집니다.
 
-```ts:Secret.ts
+```ts
 class Secret {
   private _password = '접근하면 할 수 없습니다.'
 }
@@ -23,7 +23,7 @@ secret._password // Property '_password' is private and only accessible within c
 
 TypeScript에서는 에러를 아주 잘 나타내줍니다. 자, 그러면 JavaScript로 변환을 해봅시다.
 
-```js:Secret.js
+```js
 class Secret {
   constructor() {
     this._password = '접근하면 할 수 없습니다.';
@@ -40,7 +40,7 @@ JavaScript로 변환한 결과, `private` 키워드는 사라졌고, `_password`
 
 ## 방법 1. 클로저를 사용하세요.
 
-```ts:PasswordChecker.ts
+```ts
 class PasswordChecker {
   checkPassword: (password: string) => boolean
   constructor(passwordHash: number) {
@@ -56,7 +56,7 @@ checker.checkPassword('123qwe')
 
 ## 방법 2. Babel Stage-3 문법의 `#`을 사용하세요.
 
-```ts:PasswordChecker.ts
+```ts
 class PasswordChecker {
   #passwordHash: number
 
@@ -74,7 +74,7 @@ checker.checkPassword('123qwe') // true
 checker.checkPassword('890uio') // false
 ```
 
-```js:PasswordChecker.js
+```js
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
     if (kind === "m") throw new TypeError("Private method is not writable");
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
