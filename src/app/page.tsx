@@ -42,7 +42,7 @@ export default async function Home() {
                 </time>
                 <article className="mt-2">
                   <a
-                    className="ease-in duration-200 hover:text-green-400"
+                    className="ease-in duration-200 hover:text-[#00E599]"
                     href={`/blog/${post.slug}`}>
                     <h1 className="text-2xl font-semibold leading-tight md:text-3xl">
                       {post.title}
@@ -50,7 +50,7 @@ export default async function Home() {
                   </a>
                   <p className="mt-4 !leading-normal lg:mt-5">{post.summary}</p>
                   <a
-                    className="inline-flex !leading-none items-center relative transition-colors duration-500 before:absolute before:-bottom-1.5 before:left-0 before:h-1.5 before:w-full before:transition-all before:duration-500 hover:before:bottom-full hover:before:opacity-0 before:pointer-events-none before:bg-green-300 hover:text-green-400 dark:before:bg-green-400 dark:text-white dark:hover:text-green-400 mt-4 font-semibold lg:mt-5"
+                    className="inline-flex !leading-none items-center relative transition-colors duration-500 before:absolute before:-bottom-1.5 before:left-0 before:h-1.5 before:w-full before:transition-all before:duration-500 hover:before:bottom-full hover:before:opacity-0 before:pointer-events-none before:bg-[#31C48D] hover:text-[#31C48D] dark:before:bg-[#00E599] dark:text-white dark:hover:text-[#00E599] mt-4 font-semibold lg:mt-5"
                     href={`/blog/${post.slug}`}>
                     Read more
                   </a>
@@ -62,7 +62,7 @@ export default async function Home() {
         </ol>
         <div className="safe-paddings grid justify-end col-span-full mt-16 md:col-start-10 md:col-end-12">
           <Link
-            className="text-green-300 hover:text-green-400 cursor-pointer"
+            className="text-green-300 hover:text-[#00E599] cursor-pointer"
             href="/blog">
             All Posts →
           </Link>
