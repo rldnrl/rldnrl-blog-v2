@@ -1,8 +1,10 @@
 import fs from "fs";
-import matter from "gray-matter";
-import type { Post } from "@/types/post";
+import type { Frontmatter, Post } from "@/types/post";
 import { select } from "@/utils/select";
 import { sort } from "@/utils/sort";
+import { compileMDX } from "next-mdx-remote/rsc";
+import rehypeHighlight from "rehype-highlight/lib";
+import rehypeSlug from "rehype-slug";
 
 type FindLatestPostsParams = {
   count?: number;
@@ -55,7 +57,16 @@ export class PostService {
 
     try {
       const readFile = fs.readFileSync(BLOG_DIR + `/${slug}.md`, "utf-8");
-      const { data, content } = matter(readFile);
+
+      const { frontmatter, content } = await compileMDX<Frontmatter>({
+        source: readFile,
+        options: {
+          parseFrontmatter: true,
+          mdxOptions: {
+            rehypePlugins: [rehypeHighlight, rehypeSlug],
+          },
+        },
+      });
 
       const {
         date: rawPublishDate = new Date(),
@@ -67,7 +78,7 @@ export class PostService {
         draft = false,
         metadata = {},
         summary,
-      } = data;
+      } = frontmatter;
 
       const date = new Date(rawPublishDate);
 
@@ -82,27 +93,14 @@ export class PostService {
         author,
         draft,
         metadata,
-        content,
         summary,
+        content,
       };
     } catch (e) {
-      /* empty */
+      //
     }
 
     return null;
-  }
-
-  public static async findPostsByIds(ids: string[]): Promise<Post[]> {
-    if (!Array.isArray(ids)) return [];
-
-    const posts = await this.fetchPosts();
-
-    return ids.reduce((result: Post[], id: string) => {
-      posts.some((post: Post) => {
-        return id === post.id && result.push(post);
-      });
-      return result;
-    }, []);
   }
 
   public static async getTags(): Promise<string[]> {
