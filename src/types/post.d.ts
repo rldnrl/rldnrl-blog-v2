@@ -1,4 +1,4 @@
-export interface Post {
+export interface Frontmatter {
   id: string;
   slug: string;
   date: Date;
@@ -10,8 +10,11 @@ export interface Post {
   author?: string;
   metadata?: MetaData;
   draft?: boolean;
-  content: string;
   readingTime?: number;
+}
+
+export interface Post extends Frontmatter {
+  content: ReactElement<any, string | JSXElementConstructor<any>>;
 }
 
 export interface MetaData {
