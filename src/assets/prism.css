@@ -1,0 +1,17 @@
+code:not(.language-js, .language-ts, .language-tsx) {
+  color: #10b981 !important;
+  font-weight: 600;
+  font-size: .875em;
+  background-color: #f3f4f6;
+  padding: 2px 4px;
+  border-radius: 0.25rem;
+}
+
+html.dark code:not(.language-js, .language-ts, .language-tsx) {
+  color: #10b981 !important;
+  font-weight: 600;
+  font-size: .875em;
+  background-color: #4B5563;
+  padding: 2px 4px;
+  border-radius: 0.25rem;
+}
