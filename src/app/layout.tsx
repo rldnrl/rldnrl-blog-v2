@@ -21,7 +21,9 @@ export default function RootLayout({
         className={cn("relative flex min-h-[100vh] flex-col scrollbar-hide")}>
         <ThemeProvider>
           <Header blogTitle="rldnrl" />
-          {children}
+          <main className="flex flex-1 flex-col dark:bg-gray-900">
+            {children}
+          </main>
           <Footer />
         </ThemeProvider>
       </body>
