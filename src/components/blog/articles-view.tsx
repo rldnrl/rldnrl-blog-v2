@@ -41,7 +41,7 @@ export const ArticlesView = ({ tags, posts }: ArticlesViewProps) => {
       <Tags tags={tags} currentTag={currentTag as string} />
       <ol className="safe-paddings col-span-full dark:text-slate-200 md:col-start-2 md:col-end-12 md:relative md:border-l md:border-gray-200 md:dark:border-gray-700">
         {filteredPostsByTag.map((post: Post) => {
-          if (post.draft && process.env.NODE_ENV !== "development") return null;
+          if (post.draft && EnvService.isProduction()) return null;
 
           const formattedDate = post.date.toLocaleDateString("ko-kr", {
             year: "numeric",
