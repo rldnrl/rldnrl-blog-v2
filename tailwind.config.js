@@ -15,6 +15,11 @@ module.exports = {
       },
       zIndex: {
         'nav': '10'
+      },
+      colors: {
+        "primary": {
+          1: '#00e599'
+        }
       }
     },
   },
