@@ -4,6 +4,8 @@ import { GridContainer } from "@/components/grid-container";
 import "@/assets/prism.css";
 import "highlight.js/styles/atom-one-dark.css";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
+import { SITE_MAP } from "@/constant/site-map";
 
 type BlogProps = {
   params: {
@@ -23,7 +25,9 @@ export async function generateStaticParams() {
   return result;
 }
 
-export async function generateMetadata({ params }: BlogProps) {
+export async function generateMetadata({
+  params,
+}: BlogProps): Promise<Metadata> {
   const post = await PostService.findPostBySlug(decodeURI(params.slug));
 
   if (!post) {
@@ -34,6 +38,11 @@ export async function generateMetadata({ params }: BlogProps) {
 
   return {
     title: post.title,
+    openGraph: {
+      title: post.title,
+      description: post.summary,
+      siteName: SITE_MAP.siteName,
+    },
   };
 }
 
