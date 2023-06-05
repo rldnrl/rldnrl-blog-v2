@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
@@ -20,7 +22,7 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
           </button>
         )}
         {prevPage && (
-          <a
+          <Link
             className="dark:text-white"
             href={
               currentPage - 1 === 1
@@ -28,7 +30,7 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
                 : `/blog/?page=${currentPage - 1}`
             }>
             <button>Previous</button>
-          </a>
+          </Link>
         )}
         <span className="dark:text-white">
           {currentPage} of {totalPages}
@@ -41,11 +43,11 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
           </button>
         )}
         {nextPage && (
-          <a
+          <Link
             className="dark:text-white"
             href={`/blog/?page=${currentPage + 1}`}>
             <button>Next</button>
-          </a>
+          </Link>
         )}
       </nav>
     </div>
