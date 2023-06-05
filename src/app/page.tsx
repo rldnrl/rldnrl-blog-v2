@@ -41,19 +41,19 @@ export default async function Home() {
                   })}
                 </time>
                 <article className="mt-2">
-                  <a
+                  <Link
                     className="ease-in duration-200 hover:text-[#00E599]"
                     href={`/blog/${post.slug}`}>
                     <h1 className="text-2xl font-semibold leading-tight md:text-3xl">
                       {post.title}
                     </h1>
-                  </a>
+                  </Link>
                   <p className="mt-4 !leading-normal lg:mt-5">{post.summary}</p>
-                  <a
+                  <Link
                     className="inline-flex !leading-none items-center relative transition-colors duration-500 before:absolute before:-bottom-1.5 before:left-0 before:h-1.5 before:w-full before:transition-all before:duration-500 hover:before:bottom-full hover:before:opacity-0 before:pointer-events-none before:bg-[#31C48D] hover:text-[#31C48D] dark:before:bg-[#00E599] dark:text-white dark:hover:text-[#00E599] mt-4 font-semibold lg:mt-5"
                     href={`/blog/${post.slug}`}>
                     Read more
-                  </a>
+                  </Link>
                 </article>
                 <div className="safe-paddings col-span-full md:col-start-2 md:col-end-12 my-16 bg-gray-200 border-0 dark:bg-gray-700" />
               </li>
