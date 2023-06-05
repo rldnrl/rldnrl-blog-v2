@@ -43,6 +43,7 @@ export const Navbar = () => {
     <div className="flex">
       <button
         ref={menuIconRef}
+        aria-label="Menu Toggle"
         id="menu-icon"
         className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 400 dark:text-white dark:focus:ring-gray-700 dark:hover:bg-gray-700 md:hidden"
         onClick={toggleMenu}>

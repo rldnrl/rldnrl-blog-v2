@@ -3,15 +3,17 @@
 import { cn } from "@/utils/cn";
 import { ReactNode } from "react";
 
-type TagProps = {
+type TagItemProps = {
   checked: boolean;
   onClick: () => void;
   children?: ReactNode;
 };
 
-export const TagItem = ({ checked, onClick, children }: TagProps) => {
+export const TagItem = ({ checked, onClick, children }: TagItemProps) => {
   return (
     <button
+      id={`${children}`}
+      aria-label={`${children} Tag`}
       className={cn(
         "relative cursor-pointer flex items-center space-x-2 px-4 py-2 text-sm text-center transition shadow-sm rounded border focus:outline-none focus-visible:ring focus-visible:ring-[#808080] focus-visible:border-[#808080]",
         {
