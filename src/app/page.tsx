@@ -17,7 +17,7 @@ export default async function Home() {
       <GridContainer className="relative mx-auto px-4 md:max-w-none md:px-8 lg:max-w-4xl">
         <div className="safe-paddings col-span-full md:col-start-2 md:col-end-12 pt-6 pb-8 space-y-2 md:space-y-5">
           <h1 className="text-4xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-slate-200 sm:leading-10 md:text-6xl md:leading-14">
-            Latest Article
+            Latest
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-slate-300">
             Description
