@@ -1,6 +1,6 @@
 import { Mail as MailIcon } from "@/icons/mail";
 import { Github } from "@/icons/github";
-import { SITE_MAP } from "@/constant/site-map";
+import { siteMetadata } from "@/constant/site-metadata";
 import Link from "next/link";
 
 export const Footer = () => {
@@ -10,6 +10,7 @@ export const Footer = () => {
         <div className="flex mb-3 space-x-4 items-center">
           <a
             className="text-sm text-gray-500 transition hover:text-gray-600"
+            href={`mailto:${siteMetadata.email}`}
             target="_blank"
             rel="noopener noreferrer">
             <span className="sr-only">mail</span>
@@ -18,13 +19,13 @@ export const Footer = () => {
           <a
             className="text-sm text-gray-500 transition hover:text-gray-600"
             target="_blank"
-            href={SITE_MAP.github}>
+            href={siteMetadata.github}>
             <span className="sr-only">Github</span>
             <Github className="fill-current text-gray-700 dark:text-gray-200 hover:text-green-500 dark:hover:text-green-400 h-6 w-6" />
           </a>
         </div>
         <div className="flex mb-2 space-x-2 text-sm text-gray-500 dark:text-gray-400">
-          <div>{SITE_MAP.author}</div>
+          <div>{siteMetadata.author}</div>
           <div> • </div>
           <div>© 2023</div>
           <div> • </div>
