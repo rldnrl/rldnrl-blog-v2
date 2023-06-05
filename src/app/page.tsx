@@ -1,4 +1,5 @@
 import { GridContainer } from "@/components/grid-container";
+import { siteMetadata } from "@/constant/site-metadata";
 import { PostService } from "@/service/posts.service";
 import { Post } from "@/types/post";
 import { Metadata } from "next";
@@ -20,7 +21,7 @@ export default async function Home() {
             Latest
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-slate-300">
-            Description
+            {siteMetadata.description}
           </p>
         </div>
         <hr className="safe-paddings col-span-full md:col-start-2 md:col-end-12 h-px mb-8 bg-gray-200 border-0 dark:bg-gray-700" />
