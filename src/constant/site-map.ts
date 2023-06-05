@@ -1,4 +1,4 @@
 export const SITE_MAP = {
-  title: "Rldnrl",
+  siteName: "Rldnrl Blog",
   github: "https://github.com/rldnrl",
 };
