@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Welcome to Rldnrl Blog",
-  description: "Next13 site description",
+  description: siteMetadata.description,
 };
 
 export default async function Home() {
