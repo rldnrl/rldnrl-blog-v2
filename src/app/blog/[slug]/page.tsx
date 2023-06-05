@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { siteMetadata } from "@/constant/site-metadata";
 import Link from "next/link";
-import Comments from "@/components/comments/comment";
+import { Comments } from "@/components/comments";
 
 type BlogProps = {
   params: {

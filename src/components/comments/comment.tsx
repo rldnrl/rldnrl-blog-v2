@@ -8,7 +8,7 @@ type CommentsProps = {
   frontMatter: Frontmatter;
 };
 
-const Comments = ({ frontMatter }: CommentsProps) => {
+export const Comments = ({ frontMatter }: CommentsProps) => {
   return (
     <div id="comment">
       {siteMetadata.comment && siteMetadata.comment.provider === "giscus" && (
@@ -17,5 +17,3 @@ const Comments = ({ frontMatter }: CommentsProps) => {
     </div>
   );
 };
-
-export default Comments;
