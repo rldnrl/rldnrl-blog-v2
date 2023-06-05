@@ -17,6 +17,8 @@ export const Tags = ({ tags, currentTag }: TagsProps) => {
     // @ts-ignore
     const current = new URLSearchParams(searchParams);
 
+    current.delete("page");
+
     if (tag === "all") {
       current.delete("tag");
     } else {
