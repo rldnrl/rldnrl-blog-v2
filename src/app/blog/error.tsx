@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
 import { GridContainer } from "@/components/grid-container";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +13,6 @@ export default function Error({
 }) {
   const router = useRouter();
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
@@ -33,7 +31,7 @@ export default function Error({
         </p>
         <div className="text-center mt-8">
           <button
-            className="hover:text-[#00e599]"
+            className="hover:text-[#00e599] px-2 py-1"
             onClick={() => router.refresh()}>
             Refresh the page
           </button>
