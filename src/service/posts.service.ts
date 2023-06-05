@@ -5,6 +5,7 @@ import { sort } from "@/utils/sort";
 import { compileMDX } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight/lib";
 import rehypeSlug from "rehype-slug";
+import { EnvService } from "./env.service";
 
 type FindLatestPostsParams = {
   count?: number;
@@ -106,7 +107,15 @@ export class PostService {
   public static async getTags(): Promise<string[]> {
     const posts = await this.fetchPosts();
 
-    const tagsSet = new Set(select(posts, (post) => post.tags).flat());
+    const tagsSet = new Set(
+      select(posts, (post) => {
+        if (post.draft && !EnvService.isDevelopment()) {
+          return;
+        }
+
+        return post.tags;
+      }).flat()
+    );
 
     if (tagsSet.size === 0) {
       return ["all"];
