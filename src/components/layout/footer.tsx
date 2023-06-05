@@ -32,7 +32,7 @@ export const Footer = () => {
         </div>
         <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
           <a target="_blank" rel="noopener noreferrer">
-            Qwik Blog Theme
+            Next13 Blog Theme
           </a>
         </div>
       </div>
