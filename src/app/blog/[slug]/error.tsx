@@ -26,7 +26,7 @@ export default function Error({
           Something bad just happened...
         </h1>
         <p>
-          Our servers could not handle your request. Don't worry, our
+          Our servers could not handle your request. Don&apos;t worry, our
           development team was already notified. Try refreshing the page.
         </p>
         <div className="text-center mt-8">
