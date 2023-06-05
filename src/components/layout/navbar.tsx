@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { Menu as MenuIcon } from "@/icons/menu";
 import { cn } from "@/utils/cn";
 import { routes } from "@/constant/routes";
-import { ThemeToggle } from "../theme-toggle";
 import Link from "next/link";
 
 export const Navbar = () => {
@@ -40,7 +39,7 @@ export const Navbar = () => {
   });
 
   return (
-    <div className="flex">
+    <>
       <button
         ref={menuIconRef}
         aria-label="Menu Toggle"
@@ -69,14 +68,14 @@ export const Navbar = () => {
                       pathname === route.path,
                   }
                 )}
-                href={route.path}>
+                href={route.path}
+                onClick={() => setIsMenuOpen(false)}>
                 {route.pathname}
               </Link>
             </li>
           ))}
         </ul>
       </div>
-      <ThemeToggle />
-    </div>
+    </>
   );
 };
