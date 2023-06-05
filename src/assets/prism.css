@@ -1,6 +1,5 @@
 code:not(.language-js, .language-ts, .language-tsx, .language-jsx, .language-html) {
-  color: #31C48D !important;
-  font-weight: 600;
+  font-weight: 400;
   font-size: .875em;
   background-color: #f3f4f6;
   padding: 2px 4px;
@@ -8,8 +7,7 @@ code:not(.language-js, .language-ts, .language-tsx, .language-jsx, .language-htm
 }
 
 html.dark code:not(.language-js, .language-ts, .language-tsx, .language-jsx, .language-html) {
-  color: #31C48D !important;
-  font-weight: 600;
+  font-weight: 400;
   font-size: .875em;
   background-color: #4B5563;
   padding: 2px 4px;
