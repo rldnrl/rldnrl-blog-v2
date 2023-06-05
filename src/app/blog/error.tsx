@@ -31,7 +31,7 @@ export default function Error({
         </p>
         <div className="text-center mt-8">
           <button
-            className="hover:text-[#00e599] px-2 py-1"
+            className="hover:text-primary-1 px-2 py-1"
             onClick={() => router.refresh()}>
             Refresh the page
           </button>

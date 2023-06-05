@@ -75,15 +75,15 @@ export default async function Blog({ params }: BlogProps) {
             {post.title}
           </h1>
         </header>
-        <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-[#00e599] prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 prose-code:before:content-none prose-code:after:content-none prose-pre:p-0">
+        <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 prose-code:before:content-none prose-code:after:content-none prose-pre:p-0">
           {content}
         </div>
-        <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-[#00e599] prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 prose-code:before:content-none prose-code:after:content-none prose-pre:p-0">
+        <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 prose-code:before:content-none prose-code:after:content-none prose-pre:p-0">
           <Comments frontMatter={frontMatter} />
         </div>
         <div className="safe-paddings col-span-full md:col-start-2 md:col-end-12 mt-16">
           <Link
-            className="text-green-300 hover:text-[#00E599] cursor-pointer"
+            className="text-green-300 hover:text-primary-1 cursor-pointer"
             href="/blog">
             ← Back to the blog
           </Link>
