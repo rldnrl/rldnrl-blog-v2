@@ -24,7 +24,7 @@ export const Footer = () => {
           </a>
         </div>
         <div className="flex mb-2 space-x-2 text-sm text-gray-500 dark:text-gray-400">
-          <div>Kiwook</div>
+          <div>{SITE_MAP.author}</div>
           <div> • </div>
           <div>© 2023</div>
           <div> • </div>
