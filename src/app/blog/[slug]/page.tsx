@@ -5,8 +5,9 @@ import "@/assets/prism.css";
 import "highlight.js/styles/atom-one-dark.css";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { SITE_MAP } from "@/constant/site-map";
+import { siteMetadata } from "@/constant/site-metadata";
 import Link from "next/link";
+import Comments from "@/components/comments/comment";
 
 type BlogProps = {
   params: {
@@ -42,7 +43,7 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.summary,
-      siteName: SITE_MAP.siteName,
+      siteName: siteMetadata.siteName,
     },
   };
 }
@@ -54,7 +55,7 @@ export default async function Blog({ params }: BlogProps) {
     return notFound();
   }
 
-  const { content } = post;
+  const { content, ...frontMatter } = post;
 
   return (
     <article>
@@ -76,6 +77,9 @@ export default async function Blog({ params }: BlogProps) {
         </header>
         <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-[#00e599] prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 prose-code:before:content-none prose-code:after:content-none prose-pre:p-0">
           {content}
+        </div>
+        <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-[#00e599] prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 prose-code:before:content-none prose-code:after:content-none prose-pre:p-0">
+          <Comments frontMatter={frontMatter} />
         </div>
         <div className="safe-paddings col-span-full md:col-start-2 md:col-end-12 mt-16">
           <Link
