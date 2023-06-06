@@ -1,8 +1,7 @@
 "use client";
 
-import { EnvService } from "@/service/env.service";
-import { Post } from "@/types/post";
 import Link from "next/link";
+import { Post } from "@/types/post";
 
 type ArticlesProps = {
   posts: Post[];
