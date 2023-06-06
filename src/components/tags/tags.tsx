@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { TagItem } from "./tag-item";
 
 type TagsProps = {
@@ -9,26 +9,14 @@ type TagsProps = {
 };
 
 export const Tags = ({ tags, currentTag }: TagsProps) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
   const router = useRouter();
 
   const handleClick = (tag: string) => {
-    // @ts-ignore
-    const current = new URLSearchParams(searchParams);
-
-    current.delete("page");
-
     if (tag === "all") {
-      current.delete("tag");
+      router.push("/blog/page/1");
     } else {
-      current.set("tag", tag);
+      router.push(`/blog/tag/${tag}`);
     }
-
-    const search = current.toString();
-    const query = search ? `?${search}` : "";
-
-    router.push(`${pathname}${query}`);
   };
 
   return (
@@ -38,7 +26,7 @@ export const Tags = ({ tags, currentTag }: TagsProps) => {
           {tags.map((tag) => (
             <TagItem
               key={tag}
-              checked={currentTag === tag}
+              checked={decodeURI(currentTag) === tag}
               onClick={() => {
                 handleClick(tag);
               }}>
