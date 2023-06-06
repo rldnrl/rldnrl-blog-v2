@@ -2,7 +2,7 @@
 title: Class vs Prototype - 철학적, 역사적 관점에서의 차이
 date: '2022-04-10'
 tags: ["JavaScript"]
-draft: false
+draft: true
 summary: Class와 Prototype의 차이에 대해 몰라서 정리해봤습니다.
 ---
 
