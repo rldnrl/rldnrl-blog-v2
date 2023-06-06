@@ -37,7 +37,7 @@ export const Articles = ({ posts }: ArticlesProps) => {
               </Link>
               <p className="mt-4 lg:mt-5">{post.summary}</p>
               <Link
-                className="inline-flex items-center relative transition-colors duration-500 before:absolute before:-bottom-1.5 before:left-0 before:h-1.5 before:w-full before:transition-all before:duration-500 hover:before:bottom-full hover:before:opacity-0 before:pointer-events-none before:bg-green-300 hover:text-green-400 dark:before:bg-green-400 dark:text-white dark:hover:text-green-400 mt-4 font-semibold lg:mt-5"
+                className="inline-flex items-center relative transition-colors duration-500 before:absolute before:-bottom-1.5 before:left-0 before:h-1.5 before:w-full before:transition-all before:duration-500 hover:before:bottom-full hover:before:opacity-0 before:pointer-events-none before:bg-green-500 hover:text-green-600 dark:before:bg-green-400 dark:text-white dark:hover:text-green-400 mt-4 font-semibold lg:mt-5"
                 href={`/blog/${post.slug}`}>
                 Read more
               </Link>

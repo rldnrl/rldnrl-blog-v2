@@ -28,7 +28,7 @@ export default async function Home() {
         <Articles posts={posts} />
         <div className="safe-paddings grid justify-end col-span-full mt-16 md:col-start-10 md:col-end-12">
           <Link
-            className="text-green-300 hover:text-primary-1 cursor-pointer"
+            className="text-green-500 hover:text-green-600 dark:text-green-300 dark:hover:text-primary-1 cursor-pointer"
             href="/blog">
             All Posts →
           </Link>
