@@ -25,7 +25,7 @@ export default function Error({
         <h1 className="text-center font-black text-[2rem] md:text-[2.375rem] dark:text-[#c1c2c5]">
           Something bad just happened...
         </h1>
-        <p>
+        <p className="text-center">
           Our servers could not handle your request. Don&apos;t worry, our
           development team was already notified. Try refreshing the page.
         </p>
