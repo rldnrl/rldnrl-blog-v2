@@ -19,9 +19,9 @@ export const ThemeToggle = () => {
       aria-label={theme === "dark" ? "Theme Light Mode" : "Theme Dark Mode"}
       onClick={handleClick}>
       {theme === "dark" ? (
-        <MoonIcon className="w-6 h-6" />
-      ) : (
         <LightIcon className="w-6 h-6 " />
+      ) : (
+        <MoonIcon className="w-6 h-6" />
       )}
     </button>
   );
