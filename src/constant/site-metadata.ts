@@ -6,7 +6,7 @@ export const siteMetadata = {
   github: "https://github.com/rldnrl",
   locale: "ko",
   language: "ko",
-  siteUrl: "https://rldnrl-blog-next13.vercel.app",
+  siteUrl: "https://rldnrl.dev",
   siteRepo: "https://github.com/rldnrl/rldnrl-blog-next13",
   email: "rldnrl1002@gmail.com",
   comment: {
