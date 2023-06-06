@@ -27,8 +27,8 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
             className="dark:text-white"
             href={
               currentPage - 1 === 1
-                ? `/blog/`
-                : `/blog/?page=${currentPage - 1}`
+                ? `/blog/page/1`
+                : `/blog/page/${currentPage - 1}`
             }>
             <button aria-label="Pagination Previous">Previous</button>
           </Link>
@@ -47,7 +47,7 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
         {nextPage && (
           <Link
             className="dark:text-white"
-            href={`/blog/?page=${currentPage + 1}`}>
+            href={`/blog/page/${currentPage + 1}`}>
             <button aria-label="Pagination Next">Next</button>
           </Link>
         )}
