@@ -1,9 +1,8 @@
 import { Header } from "@/components/layout/header";
-import { Inter } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { cn } from "@/utils/cn";
-import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
+import "@/assets/globals.css";
 
 export const metadata = {
   title: "Create Next App",
