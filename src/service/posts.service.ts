@@ -35,7 +35,10 @@ export class PostService {
 
   public static async fetchPosts(): Promise<Post[]> {
     this._posts = this._posts || (await this.load());
-    return this._posts;
+
+    return sort(this._posts, (post: Post) => post.date.getTime(), true).filter(
+      (post) => !(post.draft && EnvService.isProduction())
+    );
   }
 
   public static async findLatestPosts({
