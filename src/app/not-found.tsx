@@ -12,7 +12,9 @@ export default function NotFound() {
           Ooops! Page not found...
         </h1>
         <div className="text-center mt-8">
-          <Link className="hover:text-primary-1" href="/">
+          <Link
+            className="dark:text-green-300 dark:hover:text-primary-1 cursor-pointer"
+            href="/">
             Back to Home
           </Link>
         </div>
