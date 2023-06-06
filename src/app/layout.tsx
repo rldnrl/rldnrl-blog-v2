@@ -1,7 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { cn } from "@/utils/cn";
-import { ThemeProvider } from "@/providers/theme-provider";
 import "@/assets/globals.css";
 
 export const metadata = {
@@ -15,16 +14,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className="dark">
       <body
         className={cn("relative flex min-h-[100vh] flex-col scrollbar-hide")}>
-        <ThemeProvider>
-          <Header blogTitle="rldnrl" />
-          <main className="flex flex-1 flex-col dark:bg-gray-900">
-            {children}
-          </main>
-          <Footer />
-        </ThemeProvider>
+        <Header blogTitle="rldnrl" />
+        <main className="flex flex-1 flex-col dark:bg-gray-900">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
