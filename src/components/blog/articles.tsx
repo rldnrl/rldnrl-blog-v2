@@ -12,8 +12,6 @@ export const Articles = ({ posts }: ArticlesProps) => {
   return (
     <ol className="safe-paddings col-span-full dark:text-slate-200 md:col-start-2 md:col-end-12 md:relative md:border-l md:border-gray-200 md:dark:border-gray-700">
       {posts.map((post: Post) => {
-        if (post.draft && EnvService.isProduction()) return null;
-
         const formattedDate = post.date.toLocaleDateString("ko-kr", {
           year: "numeric",
           month: "short",
