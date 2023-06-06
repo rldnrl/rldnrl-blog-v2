@@ -5,6 +5,7 @@ import { sort } from "@/utils/sort";
 import { compileMDX } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight/lib";
 import rehypeSlug from "rehype-slug";
+import remarkToc from "remark-toc";
 import { EnvService } from "./env.service";
 
 type FindLatestPostsParams = {
@@ -65,6 +66,7 @@ export class PostService {
           parseFrontmatter: true,
           mdxOptions: {
             rehypePlugins: [rehypeHighlight, rehypeSlug],
+            remarkPlugins: [remarkToc],
           },
         },
       });
