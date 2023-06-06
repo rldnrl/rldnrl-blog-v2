@@ -7,6 +7,7 @@ import rehypeHighlight from "rehype-highlight/lib";
 import rehypeSlug from "rehype-slug";
 import remarkToc from "remark-toc";
 import { EnvService } from "./env.service";
+import { CustomImage } from "@/components/custom-image";
 
 type FindLatestPostsParams = {
   count?: number;
@@ -65,6 +66,7 @@ export class PostService {
 
       const { frontmatter, content } = await compileMDX<Frontmatter>({
         source: readFile,
+        components: { CustomImage },
         options: {
           parseFrontmatter: true,
           mdxOptions: {
