@@ -25,13 +25,14 @@ export default function Error({
         <h1 className="text-center font-black text-[2rem] md:text-[2.375rem] dark:text-[#c1c2c5]">
           Something bad just happened...
         </h1>
-        <p className="text-center">
+        <p className="text-center dark:text-white mt-4">
           Our servers could not handle your request. Don&apos;t worry, our
+          <br />
           development team was already notified. Try refreshing the page.
         </p>
         <div className="text-center mt-8">
           <button
-            className="hover:text-primary-1 px-2 py-1"
+            className="dark:text-green-300 dark:hover:text-primary-1 cursor-pointer"
             onClick={() => router.refresh()}>
             Refresh the page
           </button>

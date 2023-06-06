@@ -1,13 +1,14 @@
+import Link from "next/link";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
 import { PostService } from "@/service/posts.service";
 import { GridContainer } from "@/components/grid-container";
+import { siteMetadata } from "@/constant/site-metadata";
+import { Comments } from "@/components/comments";
 
 import "@/assets/prism.css";
 import "highlight.js/styles/atom-one-dark.css";
-import { notFound } from "next/navigation";
-import { Metadata } from "next";
-import { siteMetadata } from "@/constant/site-metadata";
-import Link from "next/link";
-import { Comments } from "@/components/comments";
 
 type BlogProps = {
   params: {
@@ -83,8 +84,8 @@ export default async function Blog({ params }: BlogProps) {
         </div>
         <div className="safe-paddings col-span-full md:col-start-2 md:col-end-12 mt-16">
           <Link
-            className="text-green-300 hover:text-primary-1 cursor-pointer"
-            href="/blog">
+            className="dark:text-green-300 dark:hover:text-primary-1 cursor-pointer"
+            href="/">
             ← Back to the blog
           </Link>
         </div>
