@@ -2,7 +2,7 @@
 
 import { Post } from "@/types/post";
 import { Tags } from "../tags";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import { sort } from "@/utils/sort";
 import { Pagination } from "../pagination";
 import { Articles } from "./articles";
@@ -13,28 +13,46 @@ const POSTS_PER_PAGE = 3;
 type ArticlesViewProps = {
   tags: string[];
   posts: Post[];
+  page?: string;
+  tag?: string;
 };
 
-export const ArticlesView = ({ tags, posts }: ArticlesViewProps) => {
-  const searchParams = useSearchParams();
+export const ArticlesView = ({
+  tags,
+  posts,
+  page = "1",
+  tag = "all",
+}: ArticlesViewProps) => {
+  const currentTag = tag;
+  const currentPage = parseInt(page);
+  const sortedAllPosts = sort(
+    posts,
+    (post: Post) => post.date.getTime(),
+    true
+  ).filter((post) => !(post.draft && EnvService.isProduction()));
+  const totalPages = Math.ceil(sortedAllPosts.length / POSTS_PER_PAGE);
 
-  const currentTag = searchParams.get("tag") ?? ("all" as string);
-  const currentPage = parseInt(searchParams.get("page") ?? "1");
-  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+  if (!tags.includes(decodeURI(currentTag))) {
+    return notFound();
+  }
 
-  const sortedAllPosts = sort(posts, (post: Post) => post.date.getTime(), true);
+  if (
+    Number.isNaN(Number(page)) ||
+    currentPage < 1 ||
+    currentPage > totalPages
+  ) {
+    return notFound();
+  }
 
   const filteredPostsByTag =
     currentTag === "all"
-      ? [...sortedAllPosts]
-          .filter((post) => !(post.draft && EnvService.isProduction()))
-          .slice(
-            POSTS_PER_PAGE * (currentPage - 1),
-            POSTS_PER_PAGE * currentPage
-          )
-      : sortedAllPosts
-          .filter((post) => post.tags?.includes(currentTag as string))
-          .filter((post) => !(post.draft && EnvService.isProduction()));
+      ? sortedAllPosts.slice(
+          POSTS_PER_PAGE * (currentPage - 1),
+          POSTS_PER_PAGE * currentPage
+        )
+      : sortedAllPosts.filter((post) =>
+          post.tags?.includes(decodeURI(currentTag) as string)
+        );
 
   return (
     <>
