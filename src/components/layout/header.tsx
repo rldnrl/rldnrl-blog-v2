@@ -1,4 +1,3 @@
-import { ThemeToggle } from "../theme-toggle";
 import { Navbar } from "./navbar";
 import Link from "next/link";
 
@@ -15,10 +14,7 @@ export const Header = ({ blogTitle }: HeaderProps) => {
             <Link className="text-2xl font-semibold" href="/">
               {blogTitle}
             </Link>
-            <div className="flex">
-              <Navbar />
-              <ThemeToggle />
-            </div>
+            <Navbar />
           </div>
         </div>
       </nav>
