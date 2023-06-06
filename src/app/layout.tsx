@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
         className={cn("relative flex min-h-[100vh] flex-col scrollbar-hide")}>
         <ThemeProvider>
