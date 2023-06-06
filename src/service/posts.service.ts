@@ -111,7 +111,7 @@ export class PostService {
 
     const tagsSet = new Set(
       select(posts, (post) => {
-        if (post.draft && !EnvService.isDevelopment()) {
+        if (post.draft && EnvService.isProduction()) {
           return;
         }
 
