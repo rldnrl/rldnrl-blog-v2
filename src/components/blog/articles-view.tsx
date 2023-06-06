@@ -34,10 +34,7 @@ export const ArticlesView = ({ tags, posts }: ArticlesViewProps) => {
           )
       : sortedAllPosts
           .filter((post) => post.tags?.includes(currentTag as string))
-          .slice(
-            POSTS_PER_PAGE * (currentPage - 1),
-            POSTS_PER_PAGE * currentPage
-          );
+          .filter((post) => !(post.draft && EnvService.isProduction()));
 
   return (
     <>
