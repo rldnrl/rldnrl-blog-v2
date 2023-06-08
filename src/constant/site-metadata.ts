@@ -9,6 +9,7 @@ export const siteMetadata = {
   siteUrl: "https://rldnrl.dev",
   siteRepo: "https://github.com/rldnrl/rldnrl-blog-next13",
   email: "rldnrl1002@gmail.com",
+  perPage: 3,
   comment: {
     provider: "giscus",
     giscusConfig: {
