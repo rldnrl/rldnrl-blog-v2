@@ -1,6 +1,27 @@
 import { GridContainer } from "@/components/grid-container";
+import { siteMetadata } from "@/constant/site-metadata";
 import { AboutService } from "@/service/about.service";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const about = await AboutService.fetchAbout();
+
+  if (!about) {
+    return {
+      title: "해당 글을 찾을 수 없습니다.",
+    };
+  }
+
+  return {
+    title: about.title,
+    openGraph: {
+      title: about.title,
+      description: about.description,
+      siteName: siteMetadata.siteName,
+    },
+  };
+}
 
 export default async function About() {
   const about = await AboutService.fetchAbout();
