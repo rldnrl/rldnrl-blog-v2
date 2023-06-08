@@ -22,7 +22,7 @@ export const Tags = ({ tags, currentTag }: TagsProps) => {
   return (
     <div className="col-span-12 md:col-start-2 md:col-end-12 mb-8">
       <div className="w-full justify-between space-y-4">
-        <div className="flex space-x-1 overflow-auto whitespace-nowrap scrollbar-hide mask-fadeout-right">
+        <ul className="flex space-x-1 overflow-auto whitespace-nowrap scrollbar-hide mask-fadeout-right">
           {tags.map((tag) => (
             <TagItem
               key={tag}
@@ -33,7 +33,7 @@ export const Tags = ({ tags, currentTag }: TagsProps) => {
               {tag}
             </TagItem>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );
