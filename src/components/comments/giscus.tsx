@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { useTheme } from "next-themes";
 import { siteMetadata } from "@/constant/site-metadata";
 
 type GiscusProps = {
@@ -10,13 +9,7 @@ type GiscusProps = {
 
 export const Giscus = ({ mapping }: GiscusProps) => {
   const [enableLoadComments, setEnabledLoadComments] = useState(true);
-  const { theme, resolvedTheme } = useTheme();
-  const commentsTheme =
-    siteMetadata.comment.giscusConfig.themeURL === ""
-      ? theme === "dark" || resolvedTheme === "dark"
-        ? siteMetadata.comment.giscusConfig.darkTheme
-        : siteMetadata.comment.giscusConfig.theme
-      : siteMetadata.comment.giscusConfig.themeURL;
+  const commentsTheme = "dark";
 
   const COMMENTS_ID = "comments-container";
 
