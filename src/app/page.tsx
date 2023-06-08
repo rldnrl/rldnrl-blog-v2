@@ -1,14 +1,8 @@
-import { Metadata } from "next";
 import Link from "next/link";
 import { Articles } from "@/components/blog/articles";
 import { GridContainer } from "@/components/grid-container";
 import { siteMetadata } from "@/constant/site-metadata";
 import { PostService } from "@/service/posts.service";
-
-export const metadata: Metadata = {
-  title: "Welcome to Rldnrl Blog",
-  description: siteMetadata.description,
-};
 
 export default async function Home() {
   const posts = await PostService.findLatestPosts();
