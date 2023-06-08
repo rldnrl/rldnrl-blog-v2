@@ -2,13 +2,12 @@
 
 import { Post } from "@/types/post";
 import { Tags } from "../tags";
-import { notFound, useSearchParams } from "next/navigation";
+import { notFound } from "next/navigation";
 import { sort } from "@/utils/sort";
 import { Pagination } from "../pagination";
 import { Articles } from "./articles";
 import { EnvService } from "@/service/env.service";
-
-const POSTS_PER_PAGE = 3;
+import { siteMetadata } from "@/constant/site-metadata";
 
 type ArticlesViewProps = {
   tags: string[];
@@ -30,7 +29,7 @@ export const ArticlesView = ({
     (post: Post) => post.date.getTime(),
     true
   ).filter((post) => !(post.draft && EnvService.isProduction()));
-  const totalPages = Math.ceil(sortedAllPosts.length / POSTS_PER_PAGE);
+  const totalPages = Math.ceil(sortedAllPosts.length / siteMetadata.perPage);
 
   if (!tags.includes(decodeURI(currentTag))) {
     return notFound();
@@ -47,16 +46,16 @@ export const ArticlesView = ({
   const filteredPostsByTag =
     currentTag === "all"
       ? sortedAllPosts.slice(
-          POSTS_PER_PAGE * (currentPage - 1),
-          POSTS_PER_PAGE * currentPage
+          siteMetadata.perPage * (currentPage - 1),
+          siteMetadata.perPage * currentPage
         )
       : sortedAllPosts.filter((post) =>
-          post.tags?.includes(decodeURI(currentTag) as string)
+          post.tags?.includes(decodeURI(currentTag))
         );
 
   return (
     <>
-      <Tags tags={tags} currentTag={currentTag as string} />
+      <Tags tags={tags} currentTag={currentTag} />
       <Articles posts={filteredPostsByTag} />
       {currentTag === "all" && totalPages > 1 && (
         <Pagination currentPage={currentPage} totalPages={totalPages} />

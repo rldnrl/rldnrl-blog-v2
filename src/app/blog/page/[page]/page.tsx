@@ -2,22 +2,21 @@ import { Metadata } from "next";
 import { GridContainer } from "@/components/grid-container";
 import { PostService } from "@/service/posts.service";
 import { ArticlesView } from "@/components/blog/articles-view";
+import { siteMetadata } from "@/constant/site-metadata";
 
 export const metadata: Metadata = {
   title: "Rldnrl Blog",
   description: "Rldnrl Blog Description",
 };
 
-const POSTS_PER_PAGE = 3;
-
 export async function generateStaticParams() {
   const allPosts = await PostService.fetchPosts();
 
-  return [...Array(Math.round(allPosts.length / POSTS_PER_PAGE)).keys()].map(
-    (i) => ({
-      page: `${i + 1}`,
-    })
-  );
+  return [
+    ...Array(Math.ceil(allPosts.length / siteMetadata.perPage)).keys(),
+  ].map((i) => ({
+    page: `${i + 1}`,
+  }));
 }
 
 type BlogListByPageProps = {
