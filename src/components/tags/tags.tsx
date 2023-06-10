@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { TagItem } from "./tag-item";
 import { useRef } from "react";
 import useScrollCenter from "@/hooks/use-scroll-center";
@@ -11,7 +10,6 @@ type TagsProps = {
 };
 
 export const Tags = ({ tags, currentTag }: TagsProps) => {
-  const router = useRouter();
   const tagsRef = useRef<HTMLUListElement>(null);
 
   useScrollCenter({ ref: tagsRef, targetId: "active" });
