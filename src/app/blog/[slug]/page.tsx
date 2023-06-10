@@ -8,7 +8,6 @@ import { siteMetadata } from "@/constant/site-metadata";
 import { Comments } from "@/components/comments";
 
 import "@/assets/prism.css";
-import "highlight.js/styles/atom-one-dark.css";
 
 type BlogProps = {
   params: {
@@ -77,7 +76,7 @@ export default async function Blog({ params }: BlogProps) {
             {post.title}
           </h1>
         </header>
-        <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 prose-code:before:content-none prose-code:after:content-none prose-pre:p-0 prose-pre:bg-transparent">
+        <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 dark:prose-pre:bg-[#262626]">
           {content}
         </div>
         <hr className="safe-paddings col-span-full md:col-start-2 md:col-end-12 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
