@@ -16,7 +16,7 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
       <nav className="flex justify-between">
         {!prevPage && (
           <button
-            aria-label="Pagination Previous"
+            aria-label="Disable Previous"
             className="cursor-auto disabled:opacity-50 dark:text-white"
             disabled={!prevPage}>
             Previous
@@ -24,7 +24,7 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
         )}
         {prevPage && (
           <Link
-            className="dark:text-white"
+            className="text-green-500 hover:text-green-600 dark:text-green-300 dark:hover:text-primary-1 cursor-pointer"
             href={
               currentPage - 1 === 1
                 ? `/blog/page/1`
@@ -38,7 +38,7 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
         </span>
         {!nextPage && (
           <button
-            aria-label="Pagination Next"
+            aria-label="Disable Next"
             className="cursor-auto disabled:opacity-50 dark:text-white"
             disabled={!nextPage}>
             Next
@@ -46,7 +46,7 @@ export const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
         )}
         {nextPage && (
           <Link
-            className="dark:text-white"
+            className="text-green-500 hover:text-green-600 dark:text-green-300 dark:hover:text-primary-1 cursor-pointer"
             href={`/blog/page/${currentPage + 1}`}>
             <button aria-label="Pagination Next">Next</button>
           </Link>
