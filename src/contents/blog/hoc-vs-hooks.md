@@ -2,7 +2,7 @@
 title: HOC vs Hooks
 date: '2022-05-13'
 tags: ["React"]
-draft: false
+draft: true
 summary: High-Order Component와 Hooks에 대해서 알아봅시다.
 ---
 
