@@ -1,4 +1,4 @@
-code:not(.language-js, .language-ts, .language-tsx, .language-jsx, .language-html) {
+code:not(.hljs) {
   font-weight: 400;
   font-size: .875em;
   background-color: #f3f4f6;
@@ -6,11 +6,10 @@ code:not(.language-js, .language-ts, .language-tsx, .language-jsx, .language-htm
   border-radius: 0.25rem;
 }
 
-html.dark code:not(.language-js, .language-ts, .language-tsx, .language-jsx, .language-html) {
+html.dark code:not(.hljs) {
   font-weight: 400;
   font-size: .875em;
   background-color: #4B5563;
   padding: 2px 4px;
   border-radius: 0.25rem;
 }
-
