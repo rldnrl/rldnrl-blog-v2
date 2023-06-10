@@ -1,13 +1,14 @@
 import fs from "fs";
-import type { Frontmatter, Post } from "@/types/post";
-import { select } from "@/utils/select";
-import { sort } from "@/utils/sort";
-import { compileMDX } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight/lib";
 import rehypeSlug from "rehype-slug";
 import remarkToc from "remark-toc";
-import { EnvService } from "./env.service";
+import remarkGfm from "remark-gfm";
+import { compileMDX } from "next-mdx-remote/rsc";
+import type { Frontmatter, Post } from "@/types/post";
+import { select } from "@/utils/select";
+import { sort } from "@/utils/sort";
 import { CustomImage } from "@/components/custom-image";
+import { EnvService } from "./env.service";
 
 type FindLatestPostsParams = {
   count?: number;
@@ -70,7 +71,7 @@ export class PostService {
         options: {
           parseFrontmatter: true,
           mdxOptions: {
-            rehypePlugins: [rehypeHighlight, rehypeSlug],
+            rehypePlugins: [rehypeHighlight, rehypeSlug, remarkGfm],
             remarkPlugins: [remarkToc],
           },
         },
