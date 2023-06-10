@@ -2,9 +2,11 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { cn } from "@/utils/cn";
-import "@/assets/globals.css";
 import { Metadata } from "next";
 import { siteMetadata } from "@/constant/site-metadata";
+
+import "@/assets/prism.css";
+import "@/assets/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

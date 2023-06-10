@@ -7,8 +7,6 @@ import { GridContainer } from "@/components/grid-container";
 import { siteMetadata } from "@/constant/site-metadata";
 import { Comments } from "@/components/comments";
 
-import "@/assets/prism.css";
-
 type BlogProps = {
   params: {
     slug: string;
