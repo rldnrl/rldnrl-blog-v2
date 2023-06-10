@@ -9,7 +9,7 @@ type ArticlesProps = {
 
 export const Articles = ({ posts }: ArticlesProps) => {
   return (
-    <ol className="safe-paddings col-span-full dark:text-slate-200 md:col-start-2 md:col-end-12 md:relative md:border-l md:border-gray-200 md:dark:border-gray-700">
+    <ul className="safe-paddings col-span-full dark:text-slate-200 md:col-start-2 md:col-end-12 md:relative md:border-l md:border-gray-200 md:dark:border-gray-700">
       {posts.map((post: Post) => {
         const formattedDate = post.date.toLocaleDateString("ko-kr", {
           year: "numeric",
@@ -21,7 +21,7 @@ export const Articles = ({ posts }: ArticlesProps) => {
         return (
           <li key={post.id} className="md:pl-8">
             <div className="hidden absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700 md:block" />
-            <time className="text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+            <time className="text-sm font-normal leading-none text-gray-400 dark:text-gray-400">
               {formattedDate}
             </time>
             <article className="mt-2">
@@ -43,6 +43,6 @@ export const Articles = ({ posts }: ArticlesProps) => {
           </li>
         );
       })}
-    </ol>
+    </ul>
   );
 };
