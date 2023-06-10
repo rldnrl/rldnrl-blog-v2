@@ -1,19 +1,19 @@
 "use client";
 
 import { cn } from "@/utils/cn";
+import Link from "next/link";
 
 type TagItemProps = {
   checked: boolean;
-  onClick: () => void;
-  children?: string;
+  tag?: string;
   targetId?: string;
 };
 
-export const TagItem = ({ checked, onClick, children }: TagItemProps) => {
+export const TagItem = ({ checked, tag }: TagItemProps) => {
   return (
-    <button
-      id={checked ? "active" : `${children}`}
-      aria-label={`${children} Tag`}
+    <Link
+      id={checked ? "active" : `${tag}`}
+      aria-label={`${tag} Tag`}
       className={cn(
         "relative cursor-pointer flex items-center space-x-2 px-4 py-2 text-sm text-center transition shadow-sm rounded border focus:outline-none focus-visible:ring focus-visible:ring-[#808080] focus-visible:border-[#808080]",
         {
@@ -23,8 +23,8 @@ export const TagItem = ({ checked, onClick, children }: TagItemProps) => {
             !checked,
         }
       )}
-      onClick={onClick}>
-      <span>{children}</span>
-    </button>
+      href={tag === "all" ? "/blog/page/1" : `/blog/tag/${tag}`}>
+      <span>{tag}</span>
+    </Link>
   );
 };

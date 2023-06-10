@@ -14,14 +14,6 @@ export const Tags = ({ tags, currentTag }: TagsProps) => {
   const router = useRouter();
   const tagsRef = useRef<HTMLUListElement>(null);
 
-  const handleClick = (tag: string) => {
-    if (tag === "all") {
-      router.push("/blog/page/1");
-    } else {
-      router.push(`/blog/tag/${tag}`);
-    }
-  };
-
   useScrollCenter({ ref: tagsRef, targetId: "active" });
 
   return (
@@ -34,11 +26,8 @@ export const Tags = ({ tags, currentTag }: TagsProps) => {
             <TagItem
               key={tag}
               checked={decodeURI(currentTag) === tag}
-              onClick={() => {
-                handleClick(tag);
-              }}>
-              {tag}
-            </TagItem>
+              tag={tag}
+            />
           ))}
         </ul>
       </div>
