@@ -24,17 +24,12 @@ export const Footer = () => {
             <Github className="fill-current text-gray-700 dark:text-gray-200 hover:text-green-500 dark:hover:text-green-400 h-6 w-6" />
           </a>
         </div>
-        <div className="flex mb-2 space-x-2 text-sm text-gray-500 dark:text-gray-400">
+        <div className="flex pb-10 space-x-2 text-sm text-gray-500 dark:text-gray-400">
           <div>{siteMetadata.author}</div>
           <div> • </div>
           <div>© 2023</div>
           <div> • </div>
           <Link href="/">rldnrl</Link>
-        </div>
-        <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
-          <a target="_blank" rel="noopener noreferrer">
-            Next13 Blog Theme
-          </a>
         </div>
       </div>
     </footer>
