@@ -80,7 +80,8 @@ export default async function Blog({ params }: BlogProps) {
         <div className="col-span-full md:col-start-2 md:col-end-12 prose-md prose-headings:font-headings prose-headings:leading-tighter container prose prose-lg prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-invert dark:prose-headings:text-slate-200 dark:prose-a:text-primary-400 prose-code:before:content-none prose-code:after:content-none prose-pre:p-0">
           {content}
         </div>
-        <div>
+        <hr className="safe-paddings col-span-full md:col-start-2 md:col-end-12 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+        <div className="safe-paddings col-span-full md:col-start-2 md:col-end-12">
           <Comments frontMatter={frontMatter} />
         </div>
         <div className="safe-paddings col-span-full md:col-start-2 md:col-end-12 mt-16">
