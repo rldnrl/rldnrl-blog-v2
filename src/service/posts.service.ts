@@ -1,5 +1,5 @@
 import fs from "fs";
-import rehypeHighlight from "rehype-highlight/lib";
+import rehypePrism from "rehype-prism-plus";
 import rehypeSlug from "rehype-slug";
 import remarkToc from "remark-toc";
 import remarkGfm from "remark-gfm";
@@ -9,6 +9,7 @@ import { select } from "@/utils/select";
 import { sort } from "@/utils/sort";
 import { CustomImage } from "@/components/custom-image";
 import { EnvService } from "./env.service";
+import { remarkCodeTitle } from "@/libs/remark-code-title";
 
 type FindLatestPostsParams = {
   count?: number;
@@ -71,8 +72,8 @@ export class PostService {
         options: {
           parseFrontmatter: true,
           mdxOptions: {
-            rehypePlugins: [rehypeHighlight, rehypeSlug, remarkGfm],
-            remarkPlugins: [remarkToc],
+            rehypePlugins: [rehypeSlug, [rehypePrism, { ignoreMissing: true }]],
+            remarkPlugins: [remarkToc, remarkCodeTitle, remarkGfm],
           },
         },
       });
