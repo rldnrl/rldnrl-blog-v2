@@ -7,6 +7,7 @@ import { siteMetadata } from "@/constant/site-metadata";
 
 import "@/assets/prism.css";
 import "@/assets/globals.css";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,17 +22,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className="dark">
+    <html lang="ko" suppressHydrationWarning>
       <body
         className={cn(
           "relative flex min-h-[100vh] flex-col scrollbar-hide",
           inter.className
         )}>
-        <Header blogTitle="rldnrl" />
-        <main className="flex flex-1 flex-col dark:bg-gray-900">
-          {children}
-        </main>
-        <Footer />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Header blogTitle="rldnrl" />
+          <main className="flex flex-1 flex-col dark:bg-gray-900">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
