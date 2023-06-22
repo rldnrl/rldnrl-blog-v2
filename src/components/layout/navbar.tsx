@@ -6,6 +6,7 @@ import { Menu as MenuIcon } from "@/icons/menu";
 import { cn } from "@/utils/cn";
 import { routes } from "@/constant/routes";
 import Link from "next/link";
+import { buttonVariants } from "../button";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -57,17 +58,14 @@ export const Navbar = () => {
             hidden: !isMenuOpen,
           }
         )}>
-        <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-900 dark:border-gray-700">
+        <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-4 md:mt-0 md:border-0 md:bg-white dark:bg-gray-900 dark:border-gray-700">
           {routes?.map((route) => (
             <li key={route.pathname}>
               <Link
-                className={cn(
-                  "block py-2 pl-3 pr-4 text-black rounded hover:bg-gray-100 md:bg-transparent md:text-black md:px-2 md:py-1 dark:text-white dark:hover:bg-gray-700 ",
-                  {
-                    "bg-green-500 text-white hover:bg-green-500 md:hover:bg-transparent  md:text-green-500 md:dark:text-green-400 dark:hover:bg-green-500 dark:md:hover:bg-transparent":
-                      pathname === route.path,
-                  }
-                )}
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                })}
                 href={route.path}
                 onClick={() => setIsMenuOpen(false)}>
                 {route.pathname}
