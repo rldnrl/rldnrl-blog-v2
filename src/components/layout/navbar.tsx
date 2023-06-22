@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import { Menu as MenuIcon } from "@/icons/menu";
 import { cn } from "@/utils/cn";
 import { routes } from "@/constant/routes";
@@ -9,8 +8,6 @@ import Link from "next/link";
 import { buttonVariants } from "../button";
 
 export const Navbar = () => {
-  const pathname = usePathname();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuContainerRef = useRef<HTMLDivElement>(null);
   const menuIconRef = useRef<HTMLButtonElement>(null);
