@@ -1,5 +1,5 @@
 export const routes = [
-  { path: "/", pathname: "Home" },
-  { path: "/about", pathname: "About" },
-  { path: "/blog/page/1", pathname: "Blog" },
-];
+  { href: "/", title: "Home" },
+  { href: "/about", title: "About" },
+  { href: "/blog/page/1", title: "Blog" },
+]
