@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button, buttonVariants } from "@/components/button"
 
-import { Icons } from "./icons"
+import { Icons } from "../icons"
 
 export const MobileNav = () => {
   const pathname = usePathname()
@@ -37,22 +37,20 @@ export const MobileNav = () => {
         </MobileLink>
         <div className="mt-6 flex flex-col gap-4">
           {routes.map((route) => (
-            <div key={route.path} className="flex flex-col space-y-3">
-              <React.Fragment key={route.pathname}>
-                <MobileLink
-                  href={route.path}
-                  onOpenChange={setOpen}
-                  className={cn(
-                    buttonVariants({
-                      variant: route.path === pathname ? "secondary" : "ghost",
-                      size: "sm",
-                    }),
-                    "justify-start"
-                  )}
-                >
-                  {route.pathname}
-                </MobileLink>
-              </React.Fragment>
+            <div key={route.title} className="flex flex-col space-y-3">
+              <MobileLink
+                href={route.href}
+                onOpenChange={setOpen}
+                className={cn(
+                  buttonVariants({
+                    variant: route.href === pathname ? "secondary" : "ghost",
+                    size: "sm",
+                  }),
+                  "justify-start"
+                )}
+              >
+                {route.title}
+              </MobileLink>
             </div>
           ))}
         </div>
