@@ -2,15 +2,23 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './src/pages/**/*.{ts,tsx}',
-    './src/components/**/*.{ts,tsx}',
-    './src/app/**/*.{ts,tsx}',
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
 	],
   theme: {
-    extend: {
-      zIndex: {
-        'nav': '10'
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
       },
+    },
+    zIndex: {
+      'nav': '10'
+    },
+    extend: {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
