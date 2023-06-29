@@ -1,12 +1,14 @@
-"use client";
+"use client"
 
-import { siteMetadata } from "@/constant/site-metadata";
-import { Giscus } from "./giscus";
-import { Frontmatter } from "@/types/post";
+import { siteMetadata } from "@/constant/site-metadata"
+
+import { Frontmatter } from "@/types/post"
+
+import { Giscus } from "./giscus"
 
 type CommentsProps = {
-  frontMatter: Frontmatter;
-};
+  frontMatter: Frontmatter
+}
 
 export const Comments = ({ frontMatter }: CommentsProps) => {
   return (
@@ -15,5 +17,5 @@ export const Comments = ({ frontMatter }: CommentsProps) => {
         <Giscus mapping={frontMatter.slug} />
       )}
     </div>
-  );
-};
+  )
+}

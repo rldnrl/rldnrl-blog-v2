@@ -1,5 +1,5 @@
-import { siteMetadata } from "@/constant/site-metadata";
-import { MetadataRoute } from "next";
+import { MetadataRoute } from "next"
+import { siteMetadata } from "@/constant/site-metadata"
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,5 +8,5 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     sitemap: `${siteMetadata.siteUrl}/sitemap.xml`,
-  };
+  }
 }

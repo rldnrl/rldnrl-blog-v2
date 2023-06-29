@@ -1,16 +1,16 @@
-import Image from "next/image";
+import Image from "next/image"
 
 type CustomImageProps = {
-  src: string;
-  alt: string;
-  priority?: string;
-};
+  src: string
+  alt: string
+  priority?: string
+}
 
 export const CustomImage = ({ src, alt, priority }: CustomImageProps) => {
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <Image
-        className="rounded-lg mx-auto"
+        className="mx-auto rounded-lg"
         src={src}
         alt={alt}
         width={650}
@@ -18,5 +18,5 @@ export const CustomImage = ({ src, alt, priority }: CustomImageProps) => {
         priority={priority ? true : false}
       />
     </div>
-  );
-};
+  )
+}

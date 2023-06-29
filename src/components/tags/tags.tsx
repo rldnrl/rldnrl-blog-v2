@@ -1,25 +1,28 @@
-"use client";
+"use client"
 
-import { TagItem } from "./tag-item";
-import { useRef } from "react";
-import useScrollCenter from "@/hooks/use-scroll-center";
+import { useRef } from "react"
+
+import useScrollCenter from "@/hooks/use-scroll-center"
+
+import { TagItem } from "./tag-item"
 
 type TagsProps = {
-  tags: string[];
-  currentTag: string;
-};
+  tags: string[]
+  currentTag: string
+}
 
 export const Tags = ({ tags, currentTag }: TagsProps) => {
-  const tagsRef = useRef<HTMLUListElement>(null);
+  const tagsRef = useRef<HTMLUListElement>(null)
 
-  useScrollCenter({ ref: tagsRef, targetId: "active" });
+  useScrollCenter({ ref: tagsRef, targetId: "active" })
 
   return (
-    <div className="col-span-12 md:col-start-2 md:col-end-12 mb-8">
+    <div className="col-span-12 mb-8 md:col-start-2 md:col-end-12">
       <div className="w-full justify-between space-y-4">
         <ul
-          className="flex space-x-1 overflow-auto whitespace-nowrap scrollbar-hide mask-fadeout-right"
-          ref={tagsRef}>
+          className="mask-fadeout-right flex space-x-1 overflow-auto whitespace-nowrap scrollbar-hide"
+          ref={tagsRef}
+        >
           {tags.map((tag) => (
             <TagItem
               key={tag}
@@ -30,5 +33,5 @@ export const Tags = ({ tags, currentTag }: TagsProps) => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}

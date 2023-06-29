@@ -1,20 +1,22 @@
-"use client";
+"use client"
 
-import { Post } from "@/types/post";
-import { Tags } from "../tags";
-import { notFound } from "next/navigation";
-import { sort } from "@/utils/sort";
-import { Pagination } from "../pagination";
-import { Articles } from "./articles";
-import { EnvService } from "@/service/env.service";
-import { siteMetadata } from "@/constant/site-metadata";
+import { notFound } from "next/navigation"
+import { siteMetadata } from "@/constant/site-metadata"
+import { EnvService } from "@/service/env.service"
+import { sort } from "@/utils/sort"
+
+import { Post } from "@/types/post"
+
+import { Pagination } from "../pagination"
+import { Tags } from "../tags"
+import { Articles } from "./articles"
 
 type ArticlesViewProps = {
-  tags: string[];
-  posts: Post[];
-  page?: string;
-  tag?: string;
-};
+  tags: string[]
+  posts: Post[]
+  page?: string
+  tag?: string
+}
 
 export const ArticlesView = ({
   tags,
@@ -22,17 +24,17 @@ export const ArticlesView = ({
   page = "1",
   tag = "all",
 }: ArticlesViewProps) => {
-  const currentTag = tag;
-  const currentPage = parseInt(page);
+  const currentTag = tag
+  const currentPage = parseInt(page)
   const sortedAllPosts = sort(
     posts,
     (post: Post) => post.date.getTime(),
     true
-  ).filter((post) => !(post.draft && EnvService.isProduction()));
-  const totalPages = Math.ceil(sortedAllPosts.length / siteMetadata.perPage);
+  ).filter((post) => !(post.draft && EnvService.isProduction()))
+  const totalPages = Math.ceil(sortedAllPosts.length / siteMetadata.perPage)
 
   if (!tags.includes(decodeURI(currentTag))) {
-    return notFound();
+    return notFound()
   }
 
   if (
@@ -40,7 +42,7 @@ export const ArticlesView = ({
     currentPage < 1 ||
     currentPage > totalPages
   ) {
-    return notFound();
+    return notFound()
   }
 
   const filteredPostsByTag =
@@ -51,7 +53,7 @@ export const ArticlesView = ({
         )
       : sortedAllPosts.filter((post) =>
           post.tags?.includes(decodeURI(currentTag))
-        );
+        )
 
   return (
     <>
@@ -61,5 +63,5 @@ export const ArticlesView = ({
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       )}
     </>
-  );
-};
+  )
+}

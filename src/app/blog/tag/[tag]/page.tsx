@@ -1,30 +1,31 @@
-import { Metadata } from "next";
-import { GridContainer } from "@/components/grid-container";
-import { PostService } from "@/service/posts.service";
-import { ArticlesView } from "@/components/blog/articles-view";
+import { Metadata } from "next"
+import { PostService } from "@/service/posts.service"
+
+import { ArticlesView } from "@/components/blog/articles-view"
+import { GridContainer } from "@/components/grid-container"
 
 export const metadata: Metadata = {
   title: "Rldnrl Blog",
   description: "Rldnrl Blog Description",
-};
+}
 
 export async function generateStaticParams() {
-  const allTags = await PostService.getTags();
+  const allTags = await PostService.getTags()
 
   return allTags.map((tag) => ({
     tag,
-  }));
+  }))
 }
 
 type BlogListByTagProps = {
   params: {
-    tag: string;
-  };
-};
+    tag: string
+  }
+}
 
 export default async function BlogListByTag({ params }: BlogListByTagProps) {
-  const tags = await PostService.getTags();
-  const posts = await PostService.fetchPosts();
+  const tags = await PostService.getTags()
+  const posts = await PostService.fetchPosts()
 
   return (
     <div className="safe-paddings pt-6 md:pt-12">
@@ -32,5 +33,5 @@ export default async function BlogListByTag({ params }: BlogListByTagProps) {
         <ArticlesView posts={posts} tags={tags} tag={params.tag} />
       </GridContainer>
     </div>
-  );
+  )
 }

@@ -1,25 +1,27 @@
-import { Inter } from "next/font/google";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { cn } from "@/utils/cn";
-import { Metadata } from "next";
-import { siteMetadata } from "@/constant/site-metadata";
+import { Metadata } from "next"
+import { Inter } from "next/font/google"
+import { siteMetadata } from "@/constant/site-metadata"
+import { cn } from "@/utils/cn"
 
-import "@/assets/prism.css";
-import "@/assets/globals.css";
-import { ThemeProvider } from "@/providers/theme-provider";
+import { Footer } from "@/components/layout/footer"
+import { Header } from "@/components/layout/header"
 
-const inter = Inter({ subsets: ["latin"] });
+import "@/assets/prism.css"
+import "@/assets/globals.css"
+
+import { ThemeProvider } from "@/providers/theme-provider"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Welcome to Rldnrl Blog",
   description: siteMetadata.description,
-};
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
@@ -27,7 +29,8 @@ export default function RootLayout({
         className={cn(
           "relative flex min-h-[100vh] flex-col scrollbar-hide",
           inter.className
-        )}>
+        )}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header blogTitle="rldnrl" />
           <main className="flex flex-1 flex-col dark:bg-gray-900">
@@ -37,5 +40,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
