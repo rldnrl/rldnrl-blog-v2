@@ -28,9 +28,11 @@ export class PostService {
 
     const posts = Promise.all(
       files
-        .filter((filename) => filename.endsWith(".md"))
+        .filter(
+          (filename) => filename.endsWith(".md") || filename.endsWith(".mdx")
+        )
         .map(async (filename) => {
-          const slug = filename.replace(".md", "")
+          const slug = filename.replace(/\.(md|mdx)$/, "")
           return await this.findPostBySlug(slug)
         })
     )
@@ -66,7 +68,13 @@ export class PostService {
     if (!slug) return null
 
     try {
-      const readFile = fs.readFileSync(BLOG_DIR + `/${slug}.md`, "utf-8")
+      const fileExtension = fs.existsSync(`${BLOG_DIR}/${slug}.mdx`)
+        ? ".mdx"
+        : ".md"
+      const readFile = fs.readFileSync(
+        `${BLOG_DIR}/${slug}${fileExtension}`,
+        "utf-8"
+      )
 
       const { frontmatter, content } = await compileMDX<Frontmatter>({
         source: readFile,
