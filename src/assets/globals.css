@@ -76,3 +76,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+.react-activity-calendar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow: auto;
+  
+}
+
+.react-activity-calendar::-webkit-scrollbar {
+  display: none;
+}
+
+.react-activity-calendar__calendar {
+  width: 650px !important;
+  max-width: max-content !important;
+}
+
+.react-activity-calendar > footer {
+  width: 650px;
+}
