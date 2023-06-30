@@ -7,8 +7,8 @@ import { routes } from "@/constant/routes"
 import { siteMetadata } from "@/constant/site-metadata"
 
 import { cn } from "@/lib/utils"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Button, buttonVariants } from "@/components/button"
 
 import { Icons } from "../icons"
 
@@ -35,7 +35,7 @@ export const MobileNav = () => {
         >
           <span className="font-bold">{siteMetadata.siteName}</span>
         </MobileLink>
-        <div className="mt-6 flex flex-col gap-4">
+        <div className="mt-6 flex flex-col gap-2">
           {routes.map((route) => (
             <div key={route.title} className="flex flex-col space-y-3">
               <MobileLink

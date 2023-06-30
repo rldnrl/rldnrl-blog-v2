@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { routes } from "@/constant/routes"
 
-import { buttonVariants } from "../button"
+import { buttonVariants } from "../ui/button"
 import { MobileNav } from "./mobile-nav"
 
 export const Navbar = () => {
