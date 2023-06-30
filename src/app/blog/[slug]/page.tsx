@@ -16,7 +16,7 @@ type BlogProps = {
 export async function generateStaticParams() {
   const allPosts = await PostService.fetchPosts()
   const result = allPosts.reduce<Array<{ slug: string }>>((prev, post) => {
-    const slug = `${post.slug.replace(".md", "")}`
+    const slug = `${post.slug.replace(/\.(md|mdx)$/, "")}`
 
     prev.push({ slug })
     return prev
@@ -74,7 +74,7 @@ export default async function Blog({ params }: BlogProps) {
             {post.title}
           </h1>
         </header>
-        <div className="prose-md prose-headings:font-headings prose-headings:leading-tighter dark:prose-a:text-primary-400 container prose prose-lg col-span-full dark:prose-invert prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-headings:text-slate-200 dark:prose-pre:bg-[#262626] md:col-start-2 md:col-end-12">
+        <div className="prose-md prose-headings:font-headings prose-headings:leading-tighter dark:prose-a:text-primary-400 container prose prose-lg col-span-full w-full dark:prose-invert prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-headings:text-slate-200 dark:prose-pre:bg-[#262626] md:col-start-2 md:col-end-12">
           {content}
         </div>
         <hr className="safe-paddings col-span-full my-8 h-px border-0 bg-gray-200 dark:bg-gray-700 md:col-start-2 md:col-end-12" />
