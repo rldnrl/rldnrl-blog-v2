@@ -20,7 +20,7 @@ export const Footer = () => {
           <a
             className="text-sm text-gray-500 transition hover:text-gray-600"
             target="_blank"
-            href={siteMetadata.github}
+            href={siteMetadata.github.url}
           >
             <span className="sr-only">Github</span>
             <Github className="h-6 w-6 fill-current text-gray-700 hover:text-green-500 dark:text-gray-200 dark:hover:text-green-400" />

@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
+import { siteMetadata } from "@/constant/site-metadata"
 import axios from "axios"
 import { useTheme } from "next-themes"
 import {
@@ -34,7 +35,7 @@ export const GithubCalendar = () => {
 
   const fetchData = useCallback(() => {
     setLoading(true)
-    fetchCalendarData("rldnrl", "last")
+    fetchCalendarData(siteMetadata.github.username, "last")
       .then(({ contributions }) => setData(contributions))
 
       .finally(() => setLoading(false))
