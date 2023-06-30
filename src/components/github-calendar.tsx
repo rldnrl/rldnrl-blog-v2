@@ -48,40 +48,36 @@ export const GithubCalendar = () => {
   }
 
   return (
-    <div className="mask-fadeout-right grid place-items-center justify-center space-x-1 overflow-auto whitespace-nowrap scrollbar-hide">
-      <div className="w-full">
-        <ReactGithubCalendar
-          data={data}
-          loading={loading}
-          colorScheme={theme === "dark" ? "dark" : "light"}
-          labels={{
-            legend: {
-              less: "Less",
-              more: "More",
-            },
-            months: [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ],
-            totalCount: "{{count}} activities in {{year}}",
-            weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-          }}
-          theme={{
-            light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
-            dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
-          }}
-        />
-      </div>
-    </div>
+    <ReactGithubCalendar
+      data={data}
+      loading={loading}
+      colorScheme={theme === "dark" ? "dark" : "light"}
+      labels={{
+        legend: {
+          less: "Less",
+          more: "More",
+        },
+        months: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
+        totalCount: "{{count}} activities in {{year}}",
+        weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      }}
+      theme={{
+        light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
+        dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+      }}
+    />
   )
 }
