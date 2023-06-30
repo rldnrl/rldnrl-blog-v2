@@ -14,7 +14,7 @@ export const Navbar = () => {
     <>
       <MobileNav />
       <div className="md:z-0 hidden md:relative md:left-0 md:top-0 md:flex md:w-auto md:items-center">
-        <ul className="rounded-lg border border-gray-100 bg-gray-50 font-medium dark:border-gray-700 dark:bg-gray-900 md:mt-0 md:flex md:flex-row md:space-x-4 md:border-0 md:bg-white md:p-0">
+        <ul className="rounded-lg border border-gray-100 bg-gray-50 font-medium dark:border-gray-700 dark:bg-gray-900 md:mt-0 md:flex md:flex-row md:space-x-2 md:border-0 md:bg-white md:p-0">
           {routes?.map((route) => (
             <li key={route.title}>
               <Link
