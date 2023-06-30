@@ -44,7 +44,11 @@ export const GithubCalendar = () => {
   useEffect(fetchData, [fetchData])
 
   if (loading || !data) {
-    return <Skeleton className="h-[100px] w-[650px]" />
+    return (
+      <div className="mask-fadeout-right flex space-x-1 overflow-auto whitespace-nowrap scrollbar-hide">
+        <Skeleton className="h-[100px] w-[650px]" />
+      </div>
+    )
   }
 
   return (
