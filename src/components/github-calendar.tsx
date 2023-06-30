@@ -49,7 +49,7 @@ export const GithubCalendar = () => {
 
   return (
     <div className="mask-fadeout-right grid place-items-center justify-center space-x-1 overflow-auto whitespace-nowrap scrollbar-hide">
-      <div className="w-[650px]">
+      <div className="w-full">
         <ReactGithubCalendar
           data={data}
           loading={loading}
