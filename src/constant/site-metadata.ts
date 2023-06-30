@@ -3,7 +3,7 @@ export const siteMetadata = {
   description: "개발하면서 공부한 내용과 생각했던 것들을 정리하고 있습니다.",
   author: "Kiwook",
   siteName: "Rldnrl Blog",
-  github: "https://github.com/rldnrl",
+  github: { url: "https://github.com/rldnrl", username: "rldnrl" },
   locale: "ko",
   language: "ko",
   siteUrl: "https://rldnrl.dev",
