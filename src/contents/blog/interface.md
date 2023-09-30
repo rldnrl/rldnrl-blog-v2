@@ -6,6 +6,8 @@ draft: false
 summary: 인터페이스에 대해서 알아봅시다.
 ---
 
+## Table of Contents
+
 오늘은 프로그래밍 세계의 중요한 개념 중 하나인 '인터페이스(Interface)'에 대해 알아보려고 합니다. 
 
 # 인터페이스란 무엇인가요?
