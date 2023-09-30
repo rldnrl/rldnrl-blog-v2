@@ -22,4 +22,12 @@
 ## Table of Contents
 ```
 
-마크다운 파일에 추가하면 생성됩니다.
+```md
+## table of Contents
+```
+
+```md
+## table of contents
+```
+
+이 중에 하나를 마크다운 파일에 추가하면 생성됩니다.
