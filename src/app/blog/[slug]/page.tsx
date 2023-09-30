@@ -73,8 +73,9 @@ export default async function Blog({ params }: BlogProps) {
           <h1 className="leading-tighter font-heading mb-8 text-4xl font-bold tracking-tighter md:text-5xl md:leading-tight">
             {post.title}
           </h1>
+          <div className="mb-8 h-[0.0625rem] w-full bg-gray-300 dark:bg-gray-700" />
         </header>
-        <div className="prose-md prose-headings:font-headings prose-headings:leading-tighter dark:prose-a:text-primary-400 container prose prose-lg col-span-full w-full dark:prose-invert prose-headings:font-bold prose-headings:tracking-tighter prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-headings:text-slate-200 dark:prose-pre:bg-[#262626] md:col-start-2 md:col-end-12">
+        <div className="prose-md prose-headings:font-headings prose-headings:leading-tighter dark:prose-a:text-primary-400 container prose prose-lg col-span-full w-full dark:prose-invert prose-headings:font-bold prose-headings:tracking-tighter prose-h1:mt-10 prose-h1:text-[30px] prose-h2:text-[28px] prose-h3:text-[26px] prose-h4:text-[24px] prose-a:decoration-primary-1 prose-img:rounded-md prose-img:shadow-lg dark:prose-headings:text-slate-200 dark:prose-pre:bg-[#262626] md:col-start-2 md:col-end-12">
           {content}
         </div>
         <hr className="safe-paddings col-span-full my-8 h-px border-0 bg-gray-200 dark:bg-gray-700 md:col-start-2 md:col-end-12" />
