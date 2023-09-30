@@ -2,14 +2,16 @@
 
 import React, { useCallback, useEffect, useState } from "react"
 import { siteMetadata } from "@/constant/site-metadata"
+import { useTheme } from "next-themes"
 
 type GiscusProps = {
   mapping: string
 }
 
 export const Giscus = ({ mapping }: GiscusProps) => {
+  const { theme } = useTheme()
   const [enableLoadComments, setEnabledLoadComments] = useState(true)
-  const commentsTheme = "dark"
+  const commentsTheme = theme === "dark" ? "dark" : "light"
 
   const COMMENTS_ID = "comments-container"
 
