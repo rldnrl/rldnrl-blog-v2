@@ -132,8 +132,10 @@ Git으로 버전 관리를 하고 있다면, 이전 시점으로 돌아갈 수 �
     ```
 
   - 전부를 볼 필요는 없고 `target` 부분만 보면 됩니다. `useServerlessTraceTarget`이 `true`이면 `experimental-serverless-trace`이고 `serverless`를 세팅을 해주네요. 하지만 Next 13에서는 deprecated된 속성이기 때문에 사용하고 있어서 문제가 되었습니다.
-  - Serverless Next Component에서는 Next.js 12에서 제공하는 기능을 지원을 안한다고 합니다.
+  - 게다가 Serverless Next Component에서는 Next 12에서 제공하는 기능을 지원을 안한다고 합니다. 따라서 Next 12에서 사용하는 것도 적절하지 않습니다.
     <img src="/static/images/serverless-next-feature.png" alt="serverless-next-feature" />
   
+
+
   ## 해결
   빌드가 되는 시점으로 Next.js 버전을 낮춥니다. 이를 계기로 팀에서는 Amplify로 바꾸게 되었습니다.
