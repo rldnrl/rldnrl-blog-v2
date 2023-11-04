@@ -6,7 +6,10 @@ draft: false
 summary: Next 13을 Serverless Next Component로 배포 실패하는 이유를 분석해봤습니다.
 ---
 
-## 상황
+Next.js 13을 Serverless Next.js Component로 배포하려는 시도가 실패로 끝난 원인을 분석해보았습니다.
+
+## 문제 상황
+배포 과정 중 아래와 같은 빌드 에러가 발생했습니다.
 ```
 > Build error occurred
 Error: The "target" property is no longer supported in next.config.js.
@@ -14,128 +17,37 @@ See more info here https://nextjs.org/docs/messages/deprecated-target-config
 ...
 ```
 
-다음과 같이 에러가 발생하면서 배포가 되지 않고 있었습니다.
+이 에러는 `next.config.js` 파일 내에서 더 이상 지원되지 않는 `target` 속성 때문에 발생하는 것으로 나타났습니다.
 
-## 빌드가 되는 시점으로
-Git으로 버전 관리를 하고 있다면, 이전 시점으로 돌아갈 수 있습니다. 그래서 빌드되는 시점을 찾아서 들어갔습니다. 차이점은 다음과 같았습니다.
 
-- 빌드가 되는 시점
+## 배포 문제를 일으킨 변경 사항 탐색
+Git으로 코드를 관리하고 있었기 때문에, 이전에 정상적으로 빌드가 되었던 커밋으로 롤백해 문제의 원인을 추적했습니다. 그 과정에서 발견한 주요 차이점은 다음과 같습니다.
+
+- 정상 빌드 시의 종속성 버전:
   ```
   "next": "12.0.7",
   "react": "17.0.2",
   "react-dom": "17.0.2",
   ```
 
-- 빌드가 안 되는 시점
+- 문제가 발생한 빌드 시의 종속성 버전:
   ```
   "next": "13.0.6",
   "react": "18.2.0",
   "react-dom": "18.2.0",
   ```
 
-- Next 13에서 `next.config.js` 파일에서 `target`이 deprecated 되었는지 확인해봅시다.
-  - The deprecated target option of `next.config.js` has been removed. ([Next 13 Breaking Changes](https://nextjs.org/blog/next-13#breaking-changes))
+Next.js의 공식 문서를 확인한 결과, Next.js 13 버전에서는 `next.config.js` 파일 내의 `target` 설정이 사용 중단(deprecated)되었음을 확인할 수 있었습니다. (참고: [Next 13 Breaking Changes](https://nextjs.org/blog/next-13#breaking-changes))
 
-- Serverless Next Component에서 `target`을 사용하는지 확인해봅시다. ([코드 원본](https://github.com/serverless-nextjs/serverless-next.js/blob/4316b18794f053d7ed929b9342a649d6e0ab6f68/packages/libs/core/src/build/lib/createServerlessConfig.ts))
-    ```ts
-    import fs from "fs-extra";
-    import path from "path";
+Serverless Next.js Component의 코드를 살펴보니, `target`을 설정하는 부분이 존재했습니다. `useServerlessTraceTarget` 값이 `true`일 경우 `experimental-serverless-trace`를, 그렇지 않을 경우 `serverless`를 `target`으로 설정하는 로직이 포함되어 있었습니다. Next.js 13에서는 이 속성이 더 이상 유효하지 않기 때문에, 이 부분이 문제의 원인이었습니다. ([코드 원본](https://github.com/serverless-nextjs/serverless-next.js/blob/4316b18794f053d7ed929b9342a649d6e0ab6f68/packages/libs/core/src/build/lib/createServerlessConfig.ts))
 
-    function getCustomData(importName: string, target: string): string {
-      return `
-    module.exports = function(...args) {
-      let original = require('./${importName}');
-      const finalConfig = {};
-      const target = { target: '${target}' };
-      if (typeof original === 'function' && original.constructor.name === 'AsyncFunction') {
-        // AsyncFunctions will become promises
-        original = original(...args);
-      }
-      if (original instanceof Promise) {
-        // Special case for promises, as it's currently not supported
-        // and will just error later on
-        return original
-          .then((originalConfig) => Object.assign(finalConfig, originalConfig))
-          .then((config) => Object.assign(config, target));
-      } else if (typeof original === 'function') {
-        Object.assign(finalConfig, original(...args));
-      } else if (typeof original === 'object') {
-        Object.assign(finalConfig, original);
-      }
-      Object.assign(finalConfig, target);
-      return finalConfig;
-    }
-      `.trim();
-    }
+## Serverless Next.js Component의 문제 코드:
+```ts
+// 코드에서 'target' 설정 부분
+const target = useServerlessTraceTarget
+  ? "experimental-serverless-trace"
+  : "serverless";
+```
 
-    function getDefaultData(target: string): string {
-      return `module.exports = { target: '${target}' };`;
-    }
-
-    type CreateServerlessConfigResult = {
-      restoreUserConfig: () => Promise<void>;
-    };
-
-    export default async function createServerlessConfig(
-      workPath: string,
-      entryPath: string,
-      useServerlessTraceTarget: boolean
-    ): Promise<CreateServerlessConfigResult> {
-      const target = useServerlessTraceTarget
-        ? "experimental-serverless-trace"
-        : "serverless";
-
-      const primaryConfigPath = path.join(entryPath, "next.config.js");
-      const secondaryConfigPath = path.join(workPath, "next.config.js");
-      const backupConfigName = `next.config.original.${Date.now()}.js`;
-
-      const hasPrimaryConfig = fs.existsSync(primaryConfigPath);
-      const hasSecondaryConfig = fs.existsSync(secondaryConfigPath);
-
-      let configPath: string;
-      let backupConfigPath: string;
-
-      if (hasPrimaryConfig) {
-        // Prefer primary path
-        configPath = primaryConfigPath;
-        backupConfigPath = path.join(entryPath, backupConfigName);
-      } else if (hasSecondaryConfig) {
-        // Work with secondary path (some monorepo setups)
-        configPath = secondaryConfigPath;
-        backupConfigPath = path.join(workPath, backupConfigName);
-      } else {
-        // Default to primary path for creation
-        configPath = primaryConfigPath;
-        backupConfigPath = path.join(entryPath, backupConfigName);
-      }
-
-      const configPathExists = fs.existsSync(configPath);
-
-      if (configPathExists) {
-        await fs.rename(configPath, backupConfigPath);
-        await fs.writeFile(configPath, getCustomData(backupConfigName, target));
-      } else {
-        await fs.writeFile(configPath, getDefaultData(target));
-      }
-
-      return {
-        restoreUserConfig: async (): Promise<void> => {
-          const needToRestoreUserConfig = configPathExists;
-          await fs.remove(configPath);
-
-          if (needToRestoreUserConfig) {
-            await fs.rename(backupConfigPath, configPath);
-          }
-        }
-      };
-    }
-    ```
-
-  - 전부를 볼 필요는 없고 `target` 부분만 보면 됩니다. `useServerlessTraceTarget`이 `true`이면 `experimental-serverless-trace`이고 `serverless`를 세팅을 해주네요. 하지만 Next 13에서는 deprecated된 속성이기 때문에 사용하고 있어서 문제가 되었습니다.
-  - 게다가 Serverless Next Component에서는 Next 12에서 제공하는 기능을 지원을 안한다고 합니다. 따라서 Next 12에서 사용하는 것도 적절하지 않습니다.
-    <img src="/static/images/serverless-next-feature.png" alt="serverless-next-feature" />
-  
-
-
-  ## 해결
-  빌드가 되는 시점으로 Next.js 버전을 낮춥니다. 이를 계기로 팀에서는 Amplify로 바꾸게 되었습니다.
+## 해결 과정
+결국, 배포가 되는 시점의 Next.js 버전으로 다운그레이드함으로써 문제를 해결했습니다. 이 경험을 계기로 팀은 배포 플랫폼을 AWS Amplify로 전환하기로 결정했습니다.
