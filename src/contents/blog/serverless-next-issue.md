@@ -34,8 +34,7 @@ Git으로 버전 관리를 하고 있다면, 이전 시점으로 돌아갈 수 �
   ```
 
 - Next 13에서 `next.config.js` 파일에서 `target`이 deprecated 되었는지 확인해봅시다.
-  - [Next 13 Breaking Changes](https://nextjs.org/blog/next-13#breaking-changes)
-    - The deprecated target option of `next.config.js` has been removed.
+  - The deprecated target option of `next.config.js` has been removed. ([Next 13 Breaking Changes](https://nextjs.org/blog/next-13#breaking-changes))
 
 - Serverless Next Component에서 `target`을 사용하는지 확인해봅시다. ([코드 원본](https://github.com/serverless-nextjs/serverless-next.js/blob/4316b18794f053d7ed929b9342a649d6e0ab6f68/packages/libs/core/src/build/lib/createServerlessConfig.ts))
     ```ts
