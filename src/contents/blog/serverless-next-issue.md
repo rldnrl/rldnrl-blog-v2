@@ -1,5 +1,5 @@
 ---
-title: Serverless Next Component 배포 이슈
+title: Serverless Next Component 배포 이슈와 해결 과정
 date: '2023-11-04'
 tags: ['Deploy']
 draft: false
