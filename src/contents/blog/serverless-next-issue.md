@@ -33,7 +33,7 @@ Git으로 버전 관리를 하고 있다면, 이전 시점으로 돌아갈 수 �
   "react-dom": "18.2.0",
   ```
 
-- Next.js 13에서 `next.config.js` 파일에서 `target`이 deprecated 되었는지 확인해봅시다.
+- Next 13에서 `next.config.js` 파일에서 `target`이 deprecated 되었는지 확인해봅시다.
   - [Next 13 Breaking Changes](https://nextjs.org/blog/next-13#breaking-changes)
     - The deprecated target option of `next.config.js` has been removed.
 
