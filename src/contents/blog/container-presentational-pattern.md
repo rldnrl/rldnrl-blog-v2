@@ -6,6 +6,8 @@ draft: false
 summary: Container Presentational Pattern에 대해서 알아봅시다.
 ---
 
+저는 프로젝트할 때마다 이 패턴을 매우 유용하게 사용했습니다. 이 패턴이 무엇인지, 어떤 식으로 사용해야하는지 정리해봤습니다.
+
 Presentational 컴포넌트와 Container 컴포넌트는 React 개발에서 중요한 패턴으로, 이들은 컴포넌트의 관심사를 명확하게 분리하여 애플리케이션의 구조를 더욱 효율적이고 유지보수하기 쉽게 만듭니다.
 
 ### Presentational Component
@@ -32,6 +34,7 @@ function BookList({ books }) {
 
 export default BookList;
 ```
+
 
 ### Container Component
 
@@ -60,6 +63,137 @@ export default BookListContainer;
 ```
 
 이러한 방식으로 컴포넌트를 구성함으로써, UI와 데이터 처리 로직을 명확하게 분리하여 애플리케이션의 유지보수성과 확장성을 높일 수 있습니다. Presentational 컴포넌트는 다양한 컨테이너 컴포넌트로부터 데이터를 받아 재사용되며, Container 컴포넌트는 데이터 관리에 집중하여 애플리케이션의 데이터 흐름을 효율적으로 관리할 수 있습니다.
+
+## Context API와 같이 사용하기
+props로 접근하게 되면 props-drilling의 문제를 피할 수 없습니다. 또한, 한 페이지에서 여러 개의 데이터를 호출해야하는 경우에도 복잡성이 증가할 것으로 예상이 됩니다. 따라서 Container 컴포넌트 계층을 Context API를 사용해서 만들어보겠습니다.
+
+```jsx
+import React, { createContext, useState, useEffect } from 'react';
+
+export const BookContext = createContext();
+
+export function DataProvider({ children }) {
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    fetchBooks().then(data => setBooks(data));
+  }, []);
+
+  return (
+    <BookContext.Provider value={books}>
+			{children}
+    </BookContext.Provider>
+  );
+}
+```
+
+```jsx
+import React from 'react';
+import { DataProvider } from './DataContext';
+import BookList from './BookList';
+import AuthorList from './AuthorList';
+
+function App() {
+  return (
+    <DataProvider>
+      <BookList />
+    </DataProvider>
+  );
+}
+
+export default App;
+```
+
+```jsx
+import React, { useContext } from 'react';
+import { BookContext } from './DataContext';
+
+function BookList() {
+  const books = useContext(BookContext);
+
+  return (
+    <ul>
+      {books.map(book => (
+        <li key={book.id}>{book.title}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default BookList;
+```
+
+### Query Parameter는 Container 계층에서 관리
+보통 API와 연동하게 되면 Query Parameter를 빼놓을 수 없는데요, 이는 데이터와 관련된 상태이므로 Container 쪽에서 관리하는 것이 좋습니다. 예시를 살펴봅시다.
+
+#### Container 컴포넌트
+
+```jsx
+import React, { useState, useEffect } from 'react';
+import BookList from './BookList';
+import Pagination from './Pagination';
+
+function BookListContainer() {
+  const [books, setBooks] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [booksPerPage] = useState(10);
+
+  useEffect(() => {
+	  fetchBooks(currentPage, booksPerPage).then(data => setBooks(data));
+  }, [currentPage, booksPerPage]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  return (
+    <div>
+      <BookList books={books} />
+      <Pagination
+        currentPage={currentPage}
+        itemsPerPage={booksPerPage}
+        totalItems={/* 총 아이템 수 */}
+        onPageChange={handlePageChange}
+      />
+    </div>
+  );
+}
+
+export default BookListContainer;
+```
+
+### @tanstack/react-query와 Container 컴포넌트
+@tanstack/react-query는 서버 상태를 효율적으로 관리할 수 있도록 도와주는 라이브러리 입니다. 이 라이브러리와 Container 컴포넌트를 같이 사용하는 예제를 살펴보겠습니다.
+
+```jsx
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import BookList from './BookList';
+import Pagination from './Pagination';
+
+function BookListContainer() {
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading } = useQuery(['books', page], () => fetchBooks(page));
+  
+	const totalPages = Math.ceil(data?.total / (data?.perPage || 1));
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>An error has occurred: {error.message}</div>;
+
+  return (
+    <div>
+      <BookList books={data.books} />
+      <Pagination
+        currentPage={page}
+        totalPages={/* 총 페이지 수 */}
+        onPageChange={setPage}
+      />
+    </div>
+  );
+}
+
+export default BookListContainer;
+```
 
 ## 결론
 Presentational 컴포넌트와 Container 컴포넌트의 분리는 React 애플리케이션을 구축할 때 매우 중요한 패턴입니다. 이러한 분리는 다음과 같은 중요한 장점을 제공합니다:
