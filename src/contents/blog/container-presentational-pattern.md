@@ -175,7 +175,7 @@ function BookListContainer() {
   const [page, setPage] = useState(1);
   const { data, error, isLoading } = useQuery(['books', page], () => fetchBooks(page));
   
-	const totalPages = Math.ceil(data?.total / (data?.perPage || 1));
+  const totalPages = Math.ceil(data?.total / (data?.perPage || 1));
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>An error has occurred: {error.message}</div>;
