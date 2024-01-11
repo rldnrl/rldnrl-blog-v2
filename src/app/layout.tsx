@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { siteMetadata } from "@/constant/site-metadata"
 import { cn } from "@/utils/cn"
+import { Analytics } from "@vercel/analytics/react"
 
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
@@ -38,6 +39,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
