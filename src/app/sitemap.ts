@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteMetadata.siteUrl}/about`, lastModified: new Date() },
     ...filteredPosts.map((post: Post) => ({
       url: `${siteMetadata.siteUrl}/blog/${post.slug}`,
-      lastModified: `${siteMetadata.siteUrl}/${post.date}`,
+      lastModified: post.date,
     })),
     ...tags.map((tag: string) => ({
       url: `${siteMetadata.siteUrl}/blog/tag/${tag}`,
