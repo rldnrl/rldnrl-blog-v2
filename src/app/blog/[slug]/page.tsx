@@ -58,7 +58,7 @@ export default async function Blog({ params }: BlogProps) {
 
   return (
     <article>
-      <GridContainer className="relative mx-auto mt-6 px-4 md:mt-12 md:max-w-none md:px-8 lg:mt-16 lg:max-w-4xl">
+      <GridContainer className="relative mx-auto mt-6 px-4 md:mt-12 md:max-w-none md:px-8 lg:mt-16 lg:max-w-5xl">
         <header className="safe-paddings col-span-full dark:text-slate-200 md:col-start-2 md:col-end-12">
           <p>
             <time dateTime={String(post.date.getTime())}>

@@ -32,7 +32,7 @@ export default async function BlogListByPage({ params }: BlogListByPageProps) {
 
   return (
     <div className="safe-paddings pt-6 md:pt-12">
-      <GridContainer className="relative mx-auto px-4 md:max-w-none md:px-8 lg:max-w-4xl">
+      <GridContainer className="relative mx-auto px-4 md:max-w-none md:px-8 lg:max-w-5xl">
         <ArticlesView posts={posts} tags={tags} page={params.page} />
       </GridContainer>
     </div>

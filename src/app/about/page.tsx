@@ -33,7 +33,7 @@ export default async function About() {
 
   return (
     <div className="safe-paddings pt-6 md:pt-12">
-      <GridContainer className="relative mx-auto px-4 md:max-w-none md:px-8 lg:max-w-4xl">
+      <GridContainer className="relative mx-auto px-4 md:max-w-none md:px-8 lg:max-w-5xl">
         <section className="safe-paddings prose col-span-full dark:prose-invert dark:text-slate-200 md:col-start-2 md:col-end-12">
           <h1>{about?.title ?? About}</h1>
           {about.description && <p className="text-xl">{about.description}</p>}
