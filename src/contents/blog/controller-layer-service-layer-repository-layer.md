@@ -145,7 +145,9 @@ accountRepository.transferFunds(1, 2, 100)
 
 ```typescript
 import { Request, Response } from "express";
-import TodoService from "../services/TodoService";
+import TodoService from "./todo.service";
+import { isArray, isNumber, isString } from "lodash";
+import { Todo } from "./todo.model";
 
 class TodoController {
   private todoService: TodoService;
@@ -157,7 +159,7 @@ class TodoController {
   async getAllTodos(req: Request, res: Response) {
     try {
       const todos = await this.todoService.getAllTodos();
-      res.json(todos);
+      return res.json(todos);
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
@@ -166,6 +168,20 @@ class TodoController {
   }
 
   async createTodo(req: Request, res: Response) {
+    const { title, description } = req.body;
+
+    if (!title || !isString(title)) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid or missing "title" parameter' });
+    }
+
+    if (!description || isString(description)) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid or missing "description" parameter' });
+    }
+
     try {
       const newTodo = await this.todoService.createTodo(req.body);
       res.status(201).json(newTodo);
@@ -177,12 +193,22 @@ class TodoController {
   }
 
   async updateTodoStatus(req: Request, res: Response) {
-    const { id, status } = req.body;
-    if (!id || typeof id !== 'number') {
+    const { id } = req.params;
+    const { status } = req.body;
 
+    if (!id || !isNumber(+id)) {
+      res.status(400).json({ error: 'Invalid or missing "id" parameter' });
+    }
+
+    const statuses: Todo["status"][] = ["todo", "progress", "done"];
+
+    if (!status || !statuses.includes(status)) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid or missing "status" parameter' });
     }
     try {
-      const updatedTodo = await this.todoService.updateTodoStatus(id, status);
+      const updatedTodo = await this.todoService.updateTodoStatus(+id, status);
       res.json(updatedTodo);
     } catch (error) {
       if (error instanceof Error) {
@@ -190,10 +216,32 @@ class TodoController {
       }
     }
   }
+
+  async updateMultipleTodoStatuses(req: Request, res: Response) {
+    const updates = req.body;
+
+    if (
+      !isArray(updates) ||
+      updates.some(
+        (update) =>
+          !update.id || !["todo", "progress", "done"].includes(update.status)
+      )
+    ) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
+
+    try {
+      await this.todoService.updateMultipleTodoStatuses(updates);
+      res.status(200).json({ message: "Todos updated successfully" });
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({ error: error.message });
+      }
+    }
+  }
 }
 
 export default TodoController;
-
 ```
 
 ### 2. 서비스 계층 (Service Layer)
@@ -213,29 +261,43 @@ export default TodoController;
   - 데이터를 가져오거나 저장할 때, 리포지토리 계층과 상호작용합니다.
 
 ```typescript
-import TodoRepository from './TodoRepository';
-import Todo from './Todo';
+import TodoRepository from "./todo.repository";
+import { Todo } from "./todo.model";
 
 class TodoService {
-    private todoRepository: TodoRepository;
+  private todoRepository: TodoRepository;
 
-    constructor() {
-        this.todoRepository = new TodoRepository();
-    }
+  constructor() {
+    this.todoRepository = new TodoRepository();
+  }
 
-    async getAllTodos() {
-        return this.todoRepository.getAllTodos();
-    }
+  async getAllTodos() {
+    return this.todoRepository.getAllTodos();
+  }
 
-    async createTodo(todoData: Omit<Todo, 'id'>) {
-        return this.todoRepository.createTodo({
-            ...todoData,
-            status: 'todo',
-        });
-    }
+  async createTodo(todoData: Omit<Todo, "id">) {
+    return this.todoRepository.createTodo({
+      ...todoData,
+      status: "todo",
+    });
+  }
 
-    async updateTodoStatus(todoId: number, status: Todo['status']) {
-        return this.todoRepository.updateTodoStatus(todoId, status);
+  async updateTodoStatus(todoId: number, status: Todo["status"]) {
+    return this.todoRepository.updateTodoStatus(todoId, status);
+  }
+
+  async updateMultipleTodoStatuses(
+    updates: { id: number; status: Todo["status"] }[]
+  ) {
+    await this.todoRepository.beginTransaction();
+    try {
+      for (const { id, status } of updates) {
+        await this.todoRepository.updateTodoStatus(id, status);
+      }
+      await this.todoRepository.commitTransaction();
+    } catch (error) {
+      await this.todoRepository.rollbackTransaction();
+      throw error;
     }
 }
 
@@ -262,84 +324,113 @@ export default TodoService;
 import sqlite3 from "sqlite3";
 import Todo from "../models/Todo";
 
+
 class TodoRepository {
-  private db: sqlite3.Database;
+  private db: sqlite3.Database
 
   constructor() {
-    this.db = new sqlite3.Database("/app/data/database.db", (err) => {
+    this.db = new sqlite3.Database("/app/data/database.sqlite", (err) => {
       if (err) {
-        console.log("Error Occurred - " + err.message);
+        console.error("Error opening database:", err.message)
       } else {
-        console.log("Database Connected");
-        this.createTable();
+        this.db.run(`
+                    CREATE TABLE IF NOT EXISTS todos (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        title TEXT,
+                        description TEXT,
+                        status TEXT
+                    )
+                `)
       }
-    });
+    })
   }
 
-  private createTable() {
-    const sql = `
-            CREATE TABLE IF NOT EXISTS todos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT,
-                description TEXT,
-                status TEXT
-            )
-        `;
-    this.db.run(sql, (err) => {
-      if (err) {
-        console.error("Error creating table:", err.message);
-      } else {
-        console.log("Table created or already exists");
-      }
-    });
+  getDb() {
+    return this.db
   }
 
   async getAllTodos(): Promise<Todo[]> {
     return new Promise((resolve, reject) => {
       this.db.all<Todo>("SELECT * FROM todos", [], (err, rows) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(rows);
+          resolve(rows)
         }
-      });
-    });
+      })
+    })
   }
 
   async createTodo(todoData: Omit<Todo, "id">): Promise<Todo> {
     return new Promise((resolve, reject) => {
-      const { title, description, status } = todoData;
+      const { title, description, status } = todoData
       const sql =
-        "INSERT INTO todos (title, description, status) VALUES (?, ?, ?)";
+        "INSERT INTO todos (title, description, status) VALUES (?, ?, ?)"
       this.db.run(sql, [title, description, status], function (err) {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve({ id: this.lastID, title, description, status });
+          resolve({ id: this.lastID, title, description, status })
         }
-      });
-    });
+      })
+    })
   }
 
   async updateTodoStatus(id: number, status: Todo["status"]): Promise<Todo> {
     return new Promise((resolve, reject) => {
-      const sql = "UPDATE todos SET status = ? WHERE id = ?";
+      const sql = "UPDATE todos SET status = ? WHERE id = ?"
       this.db.run(sql, [status, id], function (err) {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
           if (this.changes === 0) {
-            reject(new Error(`Todo with id ${id} not found`));
+            reject(new Error(`Todo with id ${id} not found`))
           } else {
-            resolve({ id, status } as Todo);
+            resolve({ id, status } as Todo)
           }
         }
-      });
-    });
+      })
+    })
+  }
+
+  beginTransaction(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.db.run("BEGIN TRANSACTION", (err) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
+  }
+
+  commitTransaction(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.db.run("COMMIT", (err) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
+  }
+
+  rollbackTransaction(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.db.run("ROLLBACK", (err) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
   }
 }
 
-export default TodoRepository;
+export default TodoRepository
 ```
 
 ## 정리
