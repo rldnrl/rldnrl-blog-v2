@@ -119,6 +119,8 @@ accountRepository.transferFunds(1, 2, 100)
 
 트랜잭션을 사용하여 데이터베이스 작업의 원자성을 보장하고, 데이터 무결성과 일관성을 유지할 수 있습니다. 트랜잭션은 특히 여러 개의 관련 작업이 모두 성공하거나 모두 실패해야 하는 상황에서 유용합니다.
 
+이제 본격적으로 Controller, Service, Repository 계층에 대해서 이야기 해보겠습니다.
+
 ## Table of Contents
 
 ## Controller, Service, Repository 계층의 필요성
