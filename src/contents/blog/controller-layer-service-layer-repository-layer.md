@@ -159,7 +159,7 @@ class TodoController {
   async getAllTodos(req: Request, res: Response) {
     try {
       const todos = await this.todoService.getAllTodos();
-      return res.json(todos);
+      res.json(todos);
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
