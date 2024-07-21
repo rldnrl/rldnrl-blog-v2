@@ -1,12 +1,10 @@
 ---
 title: Controller, Service, Repository 계층 이해하기
-date: '2024-06-29'
+date: '2024-07-20'
 tags: ["Design Pattern"]
-draft: true
+draft: false
 summary: Controller, Service와 Repository 계층에 대해서 알아봅시다.
 ---
-
-## Table of Contents
 
 소프트웨어 아키텍쳐를 고민할 때, 많이 사용되는 용어라서 한 번 정리하고 넘어가는 게 좋을 것 같아서 한 번 정리해봤습니다. 이 글은 백엔드 기준으로 글을 작성한 것이고, 프론트엔드는 다른 글에서 작성해보겠습니다.
 
@@ -120,6 +118,8 @@ accountRepository.transferFunds(1, 2, 100)
 - **트랜잭션 커밋**: 모든 작업이 성공적으로 완료되면 `COMMIT` 명령어를 사용하여 트랜잭션을 커밋합니다.
 
 트랜잭션을 사용하여 데이터베이스 작업의 원자성을 보장하고, 데이터 무결성과 일관성을 유지할 수 있습니다. 트랜잭션은 특히 여러 개의 관련 작업이 모두 성공하거나 모두 실패해야 하는 상황에서 유용합니다.
+
+## Table of Contents
 
 ## Controller, Service, Repository 계층의 필요성
 애플리케이션을 개발할 때, 유지보수성과 확장성을 위해 코드를 구조화하는 것이 중요합니다. 일반적인 아키텍처 패턴은 애플리케이션을 Controller, Service, Repository라는 계층으로 나누는 것입니다. 각 계층은 특정한 역할을 맡아 코드베이스를 효율적으로 조직하는 데 도움을 줍니다.
