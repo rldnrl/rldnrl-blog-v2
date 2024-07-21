@@ -42,7 +42,7 @@ summary: Controller, Service와 Repository 계층에 대해서 알아봅시다.
 
 import sqlite3 from "sqlite3";
 
-class AccountRepository {
+class AccountTransactionExample {
   private db: sqlite3.Database;
 
   constructor() {
@@ -103,10 +103,10 @@ class AccountRepository {
   }
 }
 
-const accountRepository = new AccountRepository();
+const accountTransactionExample = new AccountTransactionExample();
 
 // 예제 사용
-accountRepository.transferFunds(1, 2, 100)
+accountTransactionExample.transferFunds(1, 2, 100)
   .then(() => console.log('Funds transferred successfully'))
   .catch((err) => console.error('Failed to transfer funds:', err.message));
 ```
@@ -159,7 +159,7 @@ class TodoController {
   async getAllTodos(req: Request, res: Response) {
     try {
       const todos = await this.todoService.getAllTodos();
-      res.json(todos);
+      return res.json(todos);
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
