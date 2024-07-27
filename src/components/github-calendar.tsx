@@ -37,18 +37,21 @@ export const GithubCalendar = () => {
     setLoading(true)
     fetchCalendarData(siteMetadata.github.username, "last")
       .then(({ contributions }) => setData(contributions))
-
       .finally(() => setLoading(false))
   }, [])
 
   useEffect(fetchData, [fetchData])
 
-  if (loading || !data) {
+  if (loading) {
     return (
       <div className="mask-fadeout-right flex space-x-1 overflow-auto whitespace-nowrap scrollbar-hide">
         <Skeleton className="h-[100px] w-[650px]" />
       </div>
     )
+  }
+
+  if (!data) {
+    return <></>
   }
 
   return (
