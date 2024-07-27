@@ -13,11 +13,6 @@ import { CustomImage } from "@/components/custom-image"
 
 import { EnvService } from "./env.service"
 
-type FindLatestPostsParams = {
-  count?: number
-  page?: number
-}
-
 const BLOG_DIR = "src/contents/blog"
 
 export class PostService {
