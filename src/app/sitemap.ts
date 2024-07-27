@@ -13,9 +13,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     (post) => !(post.draft && EnvService.isProduction())
   )
   const tags = await postService.getTags()
-  const totalPages = [...Array(Math.ceil(filteredPosts.length / 3)).keys()].map(
-    (i) => i + 1
-  )
 
   return [
     {
@@ -29,10 +26,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...tags.map((tag: string) => ({
       url: `${siteMetadata.siteUrl}/blog/tag/${tag}`,
-      lastModified: new Date(),
-    })),
-    ...totalPages.map((page) => ({
-      url: `${siteMetadata.siteUrl}/blog/page/${page}`,
       lastModified: new Date(),
     })),
   ]
