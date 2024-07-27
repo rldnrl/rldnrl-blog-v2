@@ -1,8 +1,7 @@
 import fs from "fs"
 import { remarkCodeTitle } from "@/libs/remark-code-title"
-import { select } from "@/utils/select"
-import { sort } from "@/utils/sort"
 import { compileMDX } from "next-mdx-remote/rsc"
+import { select, sort } from "radash"
 import rehypePrism from "rehype-prism-plus"
 import rehypeSlug from "rehype-slug"
 import remarkGfm from "remark-gfm"
@@ -16,12 +15,16 @@ import { EnvService } from "./env.service"
 const BLOG_DIR = "src/contents/blog"
 
 export class PostService {
-  private static _posts: Post[]
+  private _posts: Post[]
 
-  private static load(): Promise<Post[]> {
+  constructor() {
+    this._posts = []
+  }
+
+  private async load(): Promise<Post[]> {
     const files = fs.readdirSync(BLOG_DIR)
 
-    const posts = Promise.all(
+    const posts = await Promise.all(
       files
         .filter(
           (filename) => filename.endsWith(".md") || filename.endsWith(".mdx")
@@ -32,18 +35,20 @@ export class PostService {
         })
     )
 
-    return posts as Promise<Post[]>
+    return posts as Post[]
   }
 
-  public static async fetchPosts(): Promise<Post[]> {
-    this._posts = this._posts || (await this.load())
+  public async fetchPosts(): Promise<Post[]> {
+    if (this._posts.length === 0) {
+      this._posts = await this.load()
+    }
 
     return sort(this._posts, (post: Post) => post.date.getTime(), true).filter(
       (post) => !(post.draft && EnvService.isProduction())
     )
   }
 
-  public static async findPostBySlug(slug: string): Promise<Post | null> {
+  public async findPostBySlug(slug: string): Promise<Post | null> {
     if (!slug) return null
 
     try {
@@ -102,17 +107,17 @@ export class PostService {
     return null
   }
 
-  public static async getTags(): Promise<string[]> {
+  public async getTags(): Promise<string[]> {
     const posts = await this.fetchPosts()
 
     const tagsSet = new Set(
-      select(posts, (post) => {
-        if (post.draft && EnvService.isProduction()) {
-          return
-        }
-
-        return post.tags
-      }).flat()
+      select(
+        posts,
+        (post) => {
+          return post.tags
+        },
+        (post) => !(post.draft && EnvService.isProduction())
+      ).flat()
     )
 
     if (tagsSet.size === 0) {
