@@ -7,8 +7,6 @@ import { sort } from "@/utils/sort"
 
 import { Post } from "@/types/post"
 
-import { Pagination } from "../pagination"
-import { Tags } from "../tags"
 import { Articles } from "./articles"
 
 type ArticlesViewProps = {
@@ -55,13 +53,5 @@ export const ArticlesView = ({
           post.tags?.includes(decodeURI(currentTag))
         )
 
-  return (
-    <>
-      <Tags tags={tags} currentTag={currentTag} />
-      <Articles posts={filteredPostsByTag} />
-      {currentTag === "all" && totalPages > 1 && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
-      )}
-    </>
-  )
+  return <Articles posts={filteredPostsByTag} />
 }
