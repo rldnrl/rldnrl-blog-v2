@@ -48,22 +48,6 @@ export class PostService {
     )
   }
 
-  public static async findLatestPosts({
-    count,
-    page,
-  }: FindLatestPostsParams = {}): Promise<Post[]> {
-    const _count = count ?? 4
-    const _page = page ?? 1
-    const posts = await this.fetchPosts()
-
-    return posts
-      ? sort(posts, (post) => post.date.getTime(), true).slice(
-          (_page - 1) * _count,
-          (_page - 1) * _count + _count
-        )
-      : []
-  }
-
   public static async findPostBySlug(slug: string): Promise<Post | null> {
     if (!slug) return null
 
