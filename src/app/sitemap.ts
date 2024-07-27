@@ -5,12 +5,14 @@ import { PostService } from "@/service/posts.service"
 
 import { Post } from "@/types/post"
 
+const postService = new PostService()
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await PostService.fetchPosts()
+  const posts = await postService.fetchPosts()
   const filteredPosts = posts.filter(
     (post) => !(post.draft && EnvService.isProduction())
   )
-  const tags = await PostService.getTags()
+  const tags = await postService.getTags()
   const totalPages = [...Array(Math.ceil(filteredPosts.length / 3)).keys()].map(
     (i) => i + 1
   )

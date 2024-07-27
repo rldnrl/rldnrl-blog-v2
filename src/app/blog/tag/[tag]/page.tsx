@@ -9,8 +9,10 @@ export const metadata: Metadata = {
   description: "Rldnrl Blog Description",
 }
 
+const postService = new PostService()
+
 export async function generateStaticParams() {
-  const allTags = await PostService.getTags()
+  const allTags = await postService.getTags()
 
   return allTags.map((tag) => ({
     tag,
@@ -24,8 +26,8 @@ type BlogListByTagProps = {
 }
 
 export default async function BlogListByTag({ params }: BlogListByTagProps) {
-  const tags = await PostService.getTags()
-  const posts = await PostService.fetchPosts()
+  const tags = await postService.getTags()
+  const posts = await postService.fetchPosts()
 
   return (
     <div className="safe-paddings pt-6 md:pt-12">

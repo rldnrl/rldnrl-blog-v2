@@ -5,8 +5,10 @@ import { PostService } from "@/service/posts.service"
 import { Articles } from "@/components/blog/articles"
 import { GridContainer } from "@/components/grid-container"
 
+const postService = new PostService()
+
 export default async function Home() {
-  const posts = await PostService.fetchPosts()
+  const posts = await postService.fetchPosts()
 
   return (
     <section className="safe-paddings pt-6 md:pt-12">

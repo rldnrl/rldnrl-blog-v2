@@ -13,8 +13,10 @@ type BlogProps = {
   }
 }
 
+const postService = new PostService()
+
 export async function generateStaticParams() {
-  const allPosts = await PostService.fetchPosts()
+  const allPosts = await postService.fetchPosts()
   const result = allPosts.reduce<Array<{ slug: string }>>((prev, post) => {
     const slug = `${post.slug.replace(/\.(md|mdx)$/, "")}`
 
@@ -28,7 +30,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: BlogProps): Promise<Metadata> {
-  const post = await PostService.findPostBySlug(decodeURI(params.slug))
+  const post = await postService.findPostBySlug(decodeURI(params.slug))
 
   if (!post) {
     return {
@@ -48,7 +50,7 @@ export async function generateMetadata({
 }
 
 export default async function Blog({ params }: BlogProps) {
-  const post = await PostService.findPostBySlug(decodeURI(params.slug))
+  const post = await postService.findPostBySlug(decodeURI(params.slug))
 
   if (!post) {
     return notFound()
