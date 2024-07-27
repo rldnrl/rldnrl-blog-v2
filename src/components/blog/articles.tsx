@@ -4,6 +4,8 @@ import Link from "next/link"
 
 import { Post } from "@/types/post"
 
+import { Badge } from "../ui/badge"
+
 type ArticlesProps = {
   posts: Post[]
 }
@@ -35,6 +37,13 @@ export const Articles = ({ posts }: ArticlesProps) => {
                 </h1>
               </Link>
               <p className="mt-4 lg:mt-5">{post.summary}</p>
+              <ul className="mt-2 flex gap-2">
+                {post.tags?.map((tag, index) => (
+                  <li key={`tag-${index}`}>
+                    <Badge variant="secondary">{tag}</Badge>
+                  </li>
+                ))}
+              </ul>
               <Link
                 className="relative mt-4 inline-flex items-center font-semibold transition-colors duration-500 before:pointer-events-none before:absolute before:-bottom-1.5 before:left-0 before:h-1.5 before:w-full before:bg-green-500 before:transition-all before:duration-500 hover:text-green-600 hover:before:bottom-full hover:before:opacity-0 dark:text-white dark:before:bg-green-400 dark:hover:text-green-400 lg:mt-5"
                 href={`/blog/${post.slug}`}
