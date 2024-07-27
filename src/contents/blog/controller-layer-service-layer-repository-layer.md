@@ -39,7 +39,6 @@ summary: Controller, Service와 Repository 계층에 대해서 알아봅시다.
 예제 코드는 Typescript와 SQLite3를 사용했습니다.
 
 ```typescript
-
 import sqlite3 from "sqlite3";
 
 class AccountTransactionExample {
@@ -121,8 +120,6 @@ accountTransactionExample.transferFunds(1, 2, 100)
 
 이제 본격적으로 Controller, Service, Repository 계층에 대해서 이야기 해보겠습니다.
 
-## Table of Contents
-
 ## Controller, Service, Repository 계층의 필요성
 애플리케이션을 개발할 때, 유지보수성과 확장성을 위해 코드를 구조화하는 것이 중요합니다. 일반적인 아키텍처 패턴은 애플리케이션을 Controller, Service, Repository라는 계층으로 나누는 것입니다. 각 계층은 특정한 역할을 맡아 코드베이스를 효율적으로 조직하는 데 도움을 줍니다.
 
@@ -142,6 +139,8 @@ accountTransactionExample.transferFunds(1, 2, 100)
 - 클라이언트에게 응답 반환:
   - 서비스 계층에서 처리된 결과를 받아 클라이언트에게 반환합니다.
   - 성공적인 응답 또는 오류 메시지를 적절한 HTTP 상태 코드와 함께 전송합니다.
+
+### 컨트롤러 계층 예제
 
 ```typescript
 import { Request, Response } from "express";
@@ -176,7 +175,7 @@ class TodoController {
         .json({ error: 'Invalid or missing "title" parameter' });
     }
 
-    if (!description || isString(description)) {
+    if (!description || !isString(description)) {
       return res
         .status(400)
         .json({ error: 'Invalid or missing "description" parameter' });
@@ -207,6 +206,7 @@ class TodoController {
         .status(400)
         .json({ error: 'Invalid or missing "status" parameter' });
     }
+
     try {
       const updatedTodo = await this.todoService.updateTodoStatus(+id, status);
       res.json(updatedTodo);
@@ -215,7 +215,7 @@ class TodoController {
         res.status(400).json({ error: error.message });
       }
     }
-  }
+      }
 
   async updateMultipleTodoStatuses(req: Request, res: Response) {
     const updates = req.body;
@@ -260,15 +260,20 @@ export default TodoController;
   - 필요에 따라 여러 리포지토리의 데이터를 조합하거나 연산하여 클라이언트에게 필요한 결과를 생성합니다.
   - 데이터를 가져오거나 저장할 때, 리포지토리 계층과 상호작용합니다.
 
+### 서비스 계층 예제
+
 ```typescript
 import TodoRepository from "./todo.repository";
 import { Todo } from "./todo.model";
+import TransactionManager from "./transaction.manager";
 
 class TodoService {
   private todoRepository: TodoRepository;
+  private transactionManager: TransactionManager;
 
   constructor() {
     this.todoRepository = new TodoRepository();
+    this.transactionManager = new TransactionManager(this.todoRepository.getDb());
   }
 
   async getAllTodos() {
@@ -289,16 +294,17 @@ class TodoService {
   async updateMultipleTodoStatuses(
     updates: { id: number; status: Todo["status"] }[]
   ) {
-    await this.todoRepository.beginTransaction();
+    await this.transactionManager.beginTransaction();
     try {
       for (const { id, status } of updates) {
         await this.todoRepository.updateTodoStatus(id, status);
       }
-      await this.todoRepository.commitTransaction();
+      await this.transactionManager.commitTransaction();
     } catch (error) {
-      await this.todoRepository.rollbackTransaction();
+      await this.transactionManager.rollbackTransaction();
       throw error;
     }
+  }
 }
 
 export default TodoService;
@@ -320,121 +326,156 @@ export default TodoService;
   - 데이터베이스에서 가져온 데이터를 도메인 객체로 변환하거나, 도메인 객체를 데이터베이스 형식에 맞게 변환하여 저장합니다.
   - 객체 관계 매핑을 통해 데이터베이스와 도메인 모델 간의 변환을 처리합니다.
 
+### 리포지토리 계층 예제
+
 ```typescript
 import sqlite3 from "sqlite3";
-import Todo from "../models/Todo";
-
+import { Todo } from "./todo.model";
 
 class TodoRepository {
-  private db: sqlite3.Database
+  private db: sqlite3.Database;
 
   constructor() {
     this.db = new sqlite3.Database("/app/data/database.sqlite", (err) => {
       if (err) {
-        console.error("Error opening database:", err.message)
+        console.error("Error opening database:", err.message);
       } else {
         this.db.run(`
-                    CREATE TABLE IF NOT EXISTS todos (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        title TEXT,
-                        description TEXT,
-                        status TEXT
-                    )
-                `)
+          CREATE TABLE IF NOT EXISTS todos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            description TEXT,
+            status TEXT
+          )
+        `);
       }
-    })
+    });
   }
 
   getDb() {
-    return this.db
+    return this.db;
   }
 
   async getAllTodos(): Promise<Todo[]> {
     return new Promise((resolve, reject) => {
       this.db.all<Todo>("SELECT * FROM todos", [], (err, rows) => {
         if (err) {
-          reject(err)
+          reject(err);
         } else {
-          resolve(rows)
+          resolve(rows);
         }
-      })
-    })
+      });
+    });
   }
 
   async createTodo(todoData: Omit<Todo, "id">): Promise<Todo> {
     return new Promise((resolve, reject) => {
-      const { title, description, status } = todoData
-      const sql =
-        "INSERT INTO todos (title, description, status) VALUES (?, ?, ?)"
+      const { title, description, status } = todoData;
+      const sql = "INSERT INTO todos (title, description, status) VALUES (?, ?, ?)";
       this.db.run(sql, [title, description, status], function (err) {
         if (err) {
-          reject(err)
+          reject(err);
         } else {
-          resolve({ id: this.lastID, title, description, status })
+          resolve({ id: this.lastID, title, description, status });
         }
-      })
-    })
+      });
+    });
   }
 
   async updateTodoStatus(id: number, status: Todo["status"]): Promise<Todo> {
     return new Promise((resolve, reject) => {
-      const sql = "UPDATE todos SET status = ? WHERE id = ?"
+      const sql = "UPDATE todos SET status = ? WHERE id = ?";
       this.db.run(sql, [status, id], function (err) {
         if (err) {
-          reject(err)
+          reject(err);
         } else {
           if (this.changes === 0) {
-            reject(new Error(`Todo with id ${id} not found`))
+            reject(new Error(`Todo with id ${id} not found`));
           } else {
-            resolve({ id, status } as Todo)
+            resolve({ id, status } as Todo);
           }
         }
-      })
-    })
+      });
+    });
+  }
+}
+
+export default TodoRepository;
+```
+
+### 트랜잭션 관리 클래스
+
+트랜잭션을 관리하기 위한 클래스를 추가합니다.
+
+```typescript
+import sqlite3 from 'sqlite3';
+
+class TransactionManager {
+  private db: sqlite3.Database;
+
+  constructor(db: sqlite3.Database) {
+    this.db = db;
   }
 
   beginTransaction(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.db.run("BEGIN TRANSACTION", (err) => {
+      this.db.run('BEGIN TRANSACTION', (err) => {
         if (err) {
-          reject(err)
+          reject(err);
         } else {
-          resolve()
+          resolve();
         }
-      })
-    })
+      });
+    });
   }
 
   commitTransaction(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.db.run("COMMIT", (err) => {
+      this.db.run('COMMIT', (err) => {
         if (err) {
-          reject(err)
+          reject(err);
         } else {
-          resolve()
+          resolve();
         }
-      })
-    })
+      });
+    });
   }
 
   rollbackTransaction(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.db.run("ROLLBACK", (err) => {
+      this.db.run('ROLLBACK', (err) => {
         if (err) {
-          reject(err)
+          reject(err);
         } else {
-          resolve()
+          resolve();
         }
-      })
-    })
+      });
+    });
   }
 }
 
-export default TodoRepository
+export default TransactionManager;
 ```
+
+## 정리
+- **Controller 계층**: 클라이언트와의 인터페이스를 관리하며, 들어오는 요청을 처리하고 응답을 반환합니다.
+- **Service 계층**: 비즈니스 로직을 처리하고 데이터를 조작하며, 트랜잭션을 관리합니다.
+- **Repository 계층**: 데이터베이스와 직접 상호작용하여 데이터를 관리하고, CRUD 작업을 수행합니다.
+
+이러한 계층을 분리하면 코드베이스가 모듈화되어 유지보수와 테스트가 용이해집니다. 각 계층은 자신의 역할에 집중함으로써 코드를 더 깔끔하고 체계적으로 관리할 수 있습니다.
+
+### 예제 코드 설명
+- **Controller**: HTTP 요청을 처리하고, 서비스 계층을 호출하여 결과를 반환합니다.
+- **Service**: 비즈니스 로직을 구현하고, 트랜잭션을 관리하며, 리포지토리 계층을 호출합니다.
+- **Repository**: 데이터베이스와의 상호작용을 담당하며, CRUD 작업을 수행합니다.
+- **TransactionManager**: 트랜잭션을 시작, 커밋, 롤백하는 역할을 담당하여 데이터베이스의 일관성과 무결성을 보장합니다.
 
 ## 정리
 - Controller 계층: 클라이언트와의 인터페이스를 관리하며, 들어오는 요청을 처리하고 응답을 반환합니다.
 - Service 계층: 비즈니스 로직을 처리하고 데이터를 조작하며, 트랜잭션을 관리합니다.
 - Repository 계층: 데이터베이스와 직접 상호작용하여 데이터를 관리하고, CRUD 작업을 수행합니다.
+- TransactionManager 클래스: 트랜잭션을 시작, 커밋, 롤백하는 역할을 담당하여 데이터베이스의 일관성과 무결성을 보장합니다.
+
+이번 글에서는 소프트웨어 아키텍처에서 많이 사용되는 Controller, Service, Repository 계층에 대해 이해하고, 이를 실제로 구현해보았습니다. 각 계층은 서로 다른 책임을 가지고 있어 코드베이스의 유지보수성과 확장성을 높이는 데 도움을 줍니다. 특히, 트랜잭션 관리의 중요성과 이를 어떻게 구현하는지에 대해 살펴보았습니다.
+<br />
 이러한 계층을 분리하면 코드베이스가 모듈화되어 유지보수와 테스트가 용이해집니다. 각 계층은 자신의 역할에 집중함으로써 코드를 더 깔끔하고 체계적으로 관리할 수 있습니다.
