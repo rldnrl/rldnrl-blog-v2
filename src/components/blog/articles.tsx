@@ -7,6 +7,7 @@ import { isEmpty } from "radash"
 import { Post } from "@/types/post"
 
 import { Badge } from "../ui/badge"
+import { Skeleton } from "../ui/skeleton"
 
 type ArticlesProps = {
   posts: Post[]
@@ -99,7 +100,6 @@ export const Articles = ({ posts }: ArticlesProps) => {
           </li>
         )
       })}
-      {isLoading && <p>Loading...</p>}
     </ul>
   )
 }
