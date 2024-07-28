@@ -1,5 +1,6 @@
 "use client"
 
+import { useCallback, useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { isEmpty } from "radash"
 
@@ -12,9 +13,44 @@ type ArticlesProps = {
 }
 
 export const Articles = ({ posts }: ArticlesProps) => {
+  const [visiblePosts, setVisiblePosts] = useState<Post[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const observer = useRef<IntersectionObserver>()
+
+  const POSTS_PER_PAGE = 10
+
+  const lastPostElementRef = useCallback(
+    (node: HTMLLIElement) => {
+      if (isLoading) return
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((prevPage) => prevPage + 1)
+        }
+      })
+      if (node) observer.current.observe(node)
+    },
+    [isLoading]
+  )
+
+  useEffect(() => {
+    const loadMorePosts = () => {
+      setIsLoading(true)
+      const newPosts = posts.slice(
+        (page - 1) * POSTS_PER_PAGE,
+        page * POSTS_PER_PAGE
+      )
+      setVisiblePosts((prevPosts) => [...prevPosts, ...newPosts])
+      setIsLoading(false)
+    }
+
+    loadMorePosts()
+  }, [page, posts])
+
   return (
     <ul className="safe-paddings col-span-full dark:text-slate-200 md:relative md:col-start-2 md:col-end-12 md:border-l md:border-gray-200 md:dark:border-gray-700">
-      {posts.map((post: Post) => {
+      {visiblePosts.map((post, index) => {
         const formattedDate = post.date.toLocaleDateString("ko-kr", {
           year: "numeric",
           month: "short",
@@ -23,7 +59,11 @@ export const Articles = ({ posts }: ArticlesProps) => {
         })
 
         return (
-          <li key={post.id} className="md:pl-8">
+          <li
+            key={post.id}
+            className="md:pl-8"
+            ref={index === visiblePosts.length - 1 ? lastPostElementRef : null}
+          >
             <div className="absolute -left-1.5 mt-1.5 hidden h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700 md:block" />
             <time className="text-sm font-normal leading-none text-gray-400 dark:text-gray-400">
               {formattedDate}
@@ -59,6 +99,7 @@ export const Articles = ({ posts }: ArticlesProps) => {
           </li>
         )
       })}
+      {isLoading && <p>Loading...</p>}
     </ul>
   )
 }
