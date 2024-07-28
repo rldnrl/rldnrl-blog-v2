@@ -1,13 +1,9 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import Link from "next/link"
-import { isEmpty } from "radash"
 
 import { Post } from "@/types/post"
 
-import { Badge } from "../ui/badge"
-import { Skeleton } from "../ui/skeleton"
 import { ArticleItem } from "./article-item"
 
 type ArticlesProps = {
