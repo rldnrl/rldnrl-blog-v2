@@ -49,7 +49,11 @@ export const Articles = ({ posts }: ArticlesProps) => {
   return (
     <ul className="safe-paddings col-span-full dark:text-slate-200 md:relative md:col-start-2 md:col-end-12 md:border-l md:border-gray-200 md:dark:border-gray-700">
       {visiblePosts.map((post, index) => (
-        <ArticleItem key={`article-${index}`} post={post} />
+        <ArticleItem
+          key={`article-${index}`}
+          post={post}
+          ref={lastPostElementRef}
+        />
       ))}
     </ul>
   )
