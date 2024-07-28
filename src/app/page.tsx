@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { siteMetadata } from "@/constant/site-metadata"
 import { PostService } from "@/service/posts.service"
 
