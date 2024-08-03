@@ -1,7 +1,6 @@
 import { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { siteMetadata } from "@/constant/site-metadata"
-import { cn } from "@/utils/cn"
 import { Analytics } from "@vercel/analytics/react"
 
 import { Footer } from "@/components/layout/footer"
@@ -10,6 +9,7 @@ import { Header } from "@/components/layout/header"
 import "@/assets/prism.css"
 import "@/assets/globals.css"
 
+import { cn } from "@/libs/utils"
 import { ThemeProvider } from "@/providers/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })

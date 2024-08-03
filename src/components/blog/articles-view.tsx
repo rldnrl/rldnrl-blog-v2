@@ -3,7 +3,7 @@
 import { notFound } from "next/navigation"
 import { siteMetadata } from "@/constant/site-metadata"
 import { EnvService } from "@/service/env.service"
-import { sort } from "@/utils/sort"
+import { sort } from "@/libs/sort"
 
 import { Post } from "@/types/post"
 

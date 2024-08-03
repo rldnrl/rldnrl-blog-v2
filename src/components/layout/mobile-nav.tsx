@@ -5,8 +5,8 @@ import Link, { LinkProps } from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { routes } from "@/constant/routes"
 import { siteMetadata } from "@/constant/site-metadata"
+import { cn } from "@/libs/utils"
 
-import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 

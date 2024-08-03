@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { cn } from "@/utils/cn"
+import { cn } from "@/libs/utils"
 
 type GridContainerProps = {
   className?: string
